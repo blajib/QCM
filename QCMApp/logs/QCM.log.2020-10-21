@@ -1,0 +1,59 @@
+[2020-10-21 09:22:52,098] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 09:45:55,485] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 09:47:59,352] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 09:56:32,273] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 09:57:51,100] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:00:33,966] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:02:55,283] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:12:02,660] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:13:40,555] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:17:33,979] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:52:42,429] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:56:00,213] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:58:24,498] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 10:59:08,409] [9] [WARN] s.INFO  - [1.0.0.0 - Non signée] - Le type 'System.Data.Entity.DynamicProxies.Questionnaires_64E590AC71088F92856E82ABE70C028BED239B03FBD79C32BD080B7C01527DF2' avec le nom de contrat de données 'Questionnaires_64E590AC71088F92856E82ABE70C028BED239B03FBD79C32BD080B7C01527DF2:http://schemas.datacontract.org/2004/07/System.Data.Entity.DynamicProxies' n'est pas attendu. Utilisez un DataContractResolver si vous utilisez DataContractSerializer ou ajoutez tous les types non connus statiquement à la liste des types connus, par exemple en utilisant l'attribut KnownTypeAttribute ou en les ajoutant à la liste des types connus qui est transmise au sérialiseur. 
+[2020-10-21 10:59:08,410] [9] [INFO] s.INFO  - [1.0.0.0 - Non signée] - retour listeQuestionnaires () 
+[2020-10-21 10:59:11,558] [9] [INFO] s.INFO  - [1.0.0.0 - Non signée] - depart pageCréationQuestionnaire(1) 
+[2020-10-21 10:59:11,662] [9] [WARN] s.INFO  - [1.0.0.0 - Non signée] - Le type 'System.Data.Entity.DynamicProxies.Elements_D0CA7484A99303D70E77E1043B8725C2A0F06113DC04D8984B7DE59470A61BDB' avec le nom de contrat de données 'Elements_D0CA7484A99303D70E77E1043B8725C2A0F06113DC04D8984B7DE59470A61BDB:http://schemas.datacontract.org/2004/07/System.Data.Entity.DynamicProxies' n'est pas attendu. Utilisez un DataContractResolver si vous utilisez DataContractSerializer ou ajoutez tous les types non connus statiquement à la liste des types connus, par exemple en utilisant l'attribut KnownTypeAttribute ou en les ajoutant à la liste des types connus qui est transmise au sérialiseur. 
+[2020-10-21 10:59:11,663] [9] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Retour PageCréationQuestionnaire() 
+[2020-10-21 11:00:20,312] [10] [INFO] s.INFO  - [1.0.0.0 - Non signée] - depart pageCréationQuestionnaire(1) 
+[2020-10-21 11:00:20,372] [10] [WARN] s.INFO  - [1.0.0.0 - Non signée] - Le type 'System.Data.Entity.DynamicProxies.Elements_D0CA7484A99303D70E77E1043B8725C2A0F06113DC04D8984B7DE59470A61BDB' avec le nom de contrat de données 'Elements_D0CA7484A99303D70E77E1043B8725C2A0F06113DC04D8984B7DE59470A61BDB:http://schemas.datacontract.org/2004/07/System.Data.Entity.DynamicProxies' n'est pas attendu. Utilisez un DataContractResolver si vous utilisez DataContractSerializer ou ajoutez tous les types non connus statiquement à la liste des types connus, par exemple en utilisant l'attribut KnownTypeAttribute ou en les ajoutant à la liste des types connus qui est transmise au sérialiseur. 
+[2020-10-21 11:00:20,373] [10] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Retour PageCréationQuestionnaire() 
+[2020-10-21 11:19:18,934] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 11:34:50,644] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 11:37:05,228] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 11:43:46,998] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 11:51:05,490] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 11:54:22,432] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 12:05:47,054] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 12:11:11,524] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 12:12:54,701] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 12:16:02,533] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 12:20:06,979] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:04:06,188] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:06:40,420] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:07:37,532] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:10:44,596] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:13:35,139] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:14:04,919] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:20:01,519] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:26:00,658] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 14:33:42,444] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:22:12,092] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:22:58,915] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:29:37,266] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:33:52,570] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:48:16,078] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:52:01,001] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:54:29,337] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 15:59:20,713] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:03:37,798] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:11:26,690] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:19:14,508] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:25:02,802] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:27:48,352] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:30:35,570] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:34:37,568] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 16:48:14,121] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 17:01:47,255] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 
+[2020-10-21 17:13:30,626] [1] [INFO] s.INFO  - [1.0.0.0 - Non signée] - Connection 

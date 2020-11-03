@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QCMAppBDDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Choixes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="intitule" Type="varchar" MaxLength="200" />
+    <Property Name="statut" Type="bit" />
+    <Property Name="media" Type="varchar" MaxLength="300" />
+    <Property Name="element_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Elements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="intitule" Type="varchar(max)" />
+    <Property Name="reponses" Type="varchar" MaxLength="150" />
+    <Property Name="media" Type="varchar" MaxLength="300" />
+    <Property Name="couleur" Type="varchar" MaxLength="50" />
+    <Property Name="doc" Type="varchar(max)" />
+    <Property Name="ChoixId" Type="int" />
+    <Property Name="TypeElement_Id" Type="int" />
+    <Property Name="questionnaire_id" Type="int" />
+    <Property Name="texte" Type="varchar(max)" />
+    <Property Name="ordre" Type="int" />
+  </EntityType>
+  <EntityType Name="GroupeSiteQuestionnaire">
+    <Key>
+      <PropertyRef Name="site_id" />
+      <PropertyRef Name="questionnaire_id" />
+    </Key>
+    <Property Name="site_id" Type="int" Nullable="false" />
+    <Property Name="questionnaire_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Questionnaires">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="intitule" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="couleur" Type="varchar" MaxLength="50" />
+    <Property Name="note" Type="int" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="actif" Type="bit" />
+  </EntityType>
+  <EntityType Name="Reponses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idQuestionnaire" Type="int" Nullable="false" />
+    <Property Name="intituleQuestionnaire" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="idElement" Type="int" Nullable="false" />
+    <Property Name="intituleElement" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="idChoix" Type="int" Nullable="false" />
+    <Property Name="intituleChoix" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="statut" Type="bit" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="UtilisateurId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Site">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TypeElements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Utilisateurs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="prenom" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="note" Type="float" />
+    <Property Name="validation" Type="bigint" />
+    <Property Name="role" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Choixes_Elements">
+    <End Role="Elements" Type="Self.Elements" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Choixes" Type="Self.Choixes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Elements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Choixes">
+        <PropertyRef Name="element_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Elements_Questionnaires">
+    <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questionnaires">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="questionnaire_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ElementTypeElement">
+    <End Role="TypeElements" Type="Self.TypeElements" Multiplicity="0..1" />
+    <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeElements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="TypeElement_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupeSiteQuestionnaire_Questionnaires">
+    <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GroupeSiteQuestionnaire" Type="Self.GroupeSiteQuestionnaire" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questionnaires">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupeSiteQuestionnaire">
+        <PropertyRef Name="questionnaire_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupeSiteQuestionnaire_Site">
+    <End Role="Site" Type="Self.Site" Multiplicity="1" />
+    <End Role="GroupeSiteQuestionnaire" Type="Self.GroupeSiteQuestionnaire" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Site">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupeSiteQuestionnaire">
+        <PropertyRef Name="site_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UtilisateurReponse">
+    <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="1" />
+    <End Role="Reponses" Type="Self.Reponses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reponses">
+        <PropertyRef Name="UtilisateurId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QCMAppBDDModelStoreContainer">
+    <EntitySet Name="Choixes" EntityType="Self.Choixes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Elements" EntityType="Self.Elements" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupeSiteQuestionnaire" EntityType="Self.GroupeSiteQuestionnaire" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Questionnaires" EntityType="Self.Questionnaires" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reponses" EntityType="Self.Reponses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Site" EntityType="Self.Site" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeElements" EntityType="Self.TypeElements" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Choixes_Elements" Association="Self.FK_Choixes_Elements">
+      <End Role="Elements" EntitySet="Elements" />
+      <End Role="Choixes" EntitySet="Choixes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Elements_Questionnaires" Association="Self.FK_Elements_Questionnaires">
+      <End Role="Questionnaires" EntitySet="Questionnaires" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ElementTypeElement" Association="Self.FK_ElementTypeElement">
+      <End Role="TypeElements" EntitySet="TypeElements" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupeSiteQuestionnaire_Questionnaires" Association="Self.FK_GroupeSiteQuestionnaire_Questionnaires">
+      <End Role="Questionnaires" EntitySet="Questionnaires" />
+      <End Role="GroupeSiteQuestionnaire" EntitySet="GroupeSiteQuestionnaire" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupeSiteQuestionnaire_Site" Association="Self.FK_GroupeSiteQuestionnaire_Site">
+      <End Role="Site" EntitySet="Site" />
+      <End Role="GroupeSiteQuestionnaire" EntitySet="GroupeSiteQuestionnaire" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UtilisateurReponse" Association="Self.FK_UtilisateurReponse">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Reponses" EntitySet="Reponses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,406 @@
+﻿@model QCMApp.Models.ViewModelQuestionnaireSite
+@{
+    ViewBag.Title = "Questionnaires";
+}
+
+<h2>Questionnaires</h2>
+@{ String stringSite = "";}
+@foreach (var site in Model.sites)
+{
+    stringSite += site.Id + ",";
+}
+@{stringSite = stringSite.TrimEnd(','); }
+@*<p>
+        @html.actionlink("nouveau questionnaire", "pagecreateintitulequestionnaire", "questionnaire")
+    </p>*@
+    <div class="row nouveauQuestionnaire">
+        <div class="col-md-4">
+        
+        </div>
+
+        <div class="col-md-4">
+            <div class="text-center">
+                <input class="btn btn-primary" type="button" value="Nouveau questionnaire" 
+                        onclick="location.href = '@Url.Action("PageCreateIntituleQuestionnaire", "Questionnaire")'" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+        
+        </div>
+    </div>
+    <div class="row filterRowQuestion">
+        <div class="col-md-2">
+            Par mot clé
+        </div>
+        <div class="col-md-4">
+            <p class="text-center">Par date</p>
+        </div>
+        <div class="col-md-2">
+            <p class="text-center">Actif</p>
+        </div>
+        <div class="col-md-2">
+            Site 
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+    @using (Html.BeginForm("searchFilterQuestionnaire", "Questionnaire", FormMethod.Post))
+    {
+        var dateDepartEnBien = Model.dateDepart.ToString("dd/MM/yyyy");
+        <div class="row barreRecherche">
+
+            <div class="col-md-2">
+                @*<label for="textSearch">Par mot clé</label>*@
+                <input id="textSearch" type="text" placeholder="Par mot clé" class="form-control searchQuestionnaire">
+            </div>
+
+            <div class="col-md-2">
+                @*<label for="dateDepart">Entre</label>*@
+                @if (Model.dateDepart != null)
+                {
+                    <input id="dateDepart" name="dateDepart" type="date" placeholder="@Model.dateDepart" class="form-control searchQuestionnaire">
+                }
+                else
+                {
+                    <input id="dateDepart" name="dateDepart" type="date" placeholder="08/04/1988" class="searchQuestionnaire">
+                }
+            </div>
+            <div class="col-md-2">
+                @*<label for="dateFin">et</label>*@
+                @if (Model.dateFin != null)
+                {
+                    <input id="dateFin" name="dateFin" type="date" value="@Model.dateFin" placeholder="@Model.dateFin" class="form-control searchQuestionnaire">
+                }
+                else
+                {
+                    <input id="dateFin" name="dateFin" type="date" class="form-control searchQuestionnaire">
+                }
+            </div>
+            <div class="col-md-2">
+                @*<label for="actif">Actif</label>*@
+                @*<input id="actifFilter" type="checkbox" value="Actif" class="form-control searchQuestionnaire">*@
+                <div class="text-center">
+                    @if (Model.actif != false)
+                    {
+                        @Html.CheckBox("actif", new { @class = "form-control", @checked = "checked" })
+                    }
+                    else
+                    {
+                        @Html.CheckBox("actif")
+                    }
+                </div>
+            </div>
+            <div class="col-md-2">
+                <p>
+                    @*<label for="pays">Sur quel site ?</label><br />*@
+                    @if (Model.idSite != 0)
+                    {
+                        <select name="idSite" id="idSite" class="form-control">
+                            <option></option>
+                            @foreach (var site in Model.sites)
+                            {
+                                <option value="@site.Id">@site.nom</option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <select name="idSite" id="idSite" class="form-control">
+                            <option value="" disabled selected>Select le site</option>
+                            @foreach (var site in Model.sites)
+                            {
+                                <option value="@site.Id">@site.nom</option>
+                            }
+                        </select>
+                    }
+                </p>
+            </div>
+
+            <div class="col-md-2">
+                <div class="text-center submit-go">
+                    <input id="searchButton" type="submit" onclick="" value="Go" class="btn btn-primary">
+                </div>
+            </div>
+
+        </div>
+    }
+    <table class="table" id="listeQuestionnaires">
+        <tr>
+            <th style="display:none">
+
+            </th>
+            <th>
+                Intitulé du questionnaire
+            </th>
+            <th>
+                Date de création
+            </th>
+            <th>
+                Sites
+            </th>
+            <th>
+                Activité
+            </th>
+            <th>
+                Actions
+            </th>
+
+
+        </tr>
+
+        @if (Model.questionnaires != null)
+        {
+            foreach (var questionnaire in Model.questionnaires)
+            {
+                var dateCreation = (DateTime)questionnaire.date;
+                var dateCreationEnBien = dateCreation.ToString("dd/MM/yyyy");
+                <tr scope="row">
+                    <td style="display:none">
+                        @questionnaire.Id
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => questionnaire.intitule)
+
+                    </td>
+                    <td>
+                        @dateCreationEnBien
+                    </td>
+                    <td>
+
+
+
+
+
+
+
+                    @*<input type="checkbox" id="lieu1_@item.Id" name="lieu1" value="lieu1" class="lieu">*@
+                    <!--<label for="lieu1">Lieu 1</label>
+                    @Html.CheckBox("lieu1" + questionnaire.Id, new { @class = "lieu" })-->
+                    @*<input type="checkbox" id="lieu2_@item.Id" name="lieu2" value="lieu2" class="lieu">*@
+                    @*<label for="lieu2">Lieu 2</label>
+                        @Html.CheckBox("lieu2" + questionnaire.Id, new { @class = "lieu" })*@
+                    @*<input type="checkbox" id="lieu3_@item.Id" name="lieu3" value="lieu3" class="lieu">*@
+                    <!--<label for="lieu3">Lieu 3</label>-->
+                    @*je fais une boucle pour récupérer les lieux et créer des id unique pour mettes en lien
+                        les lieux et questionnaires afin de pouvoir les identifié dans mon javascript.
+                        Pour cela j'ai du mettre en place un viewmodel avec allLieux/allQuestionnaires*@
+                    @*@Html.CheckBox("lieu3" + item.Id, new { @class = "lieu" })*@
+
+                    @foreach (var site in Model.sites)
+                    {
+                        @Html.CheckBox(site.Id.ToString() + "_" + questionnaire.Id, (questionnaire.Site.Where(s => s.nom == site.nom).Any()), new { id = site.Id.ToString() + "_" + questionnaire.Id, @class = "lieu" })
+                        <label for="@site.Id@questionnaire.Id">@site.nom</label>
+                    }
+
+
+</td>
+
+<td>
+
+    @*je fais un if à l'affichage de la page pour pouvoir checker les questionnaires actifs*@
+    @if (questionnaire.actif == true)
+    {
+        @Html.CheckBox("actif", new { id = "actif" + questionnaire.Id, @class = "actif", @checked = "checked" })
+    }
+    else
+    {
+        @Html.CheckBox("actif", new { id = "actif" + questionnaire.Id, @class = "actif" })
+    }
+    <label for="actif">Actif</label>
+
+</td>
+
+<td>
+
+
+    <input type="button" class="btn btn-outline-primary" value="Update" onclick="location.href='@Url.Action("PageCreateQuestionnaire", "Questionnaire", new { id = questionnaire.Id })'" />
+    <input type="button" class="btn btn-outline-primary" value="Copy" onclick="location.href='@Url.Action("CopyQuestionnaire", "Questionnaire", new { id = questionnaire.Id })'" />
+    <input type="button" class="btn btn-outline-primary" id="deleteQuestionnaire" value="Delete" onclick="location.href='@Url.Action("DeleteQuestionnaire", "Questionnaire", new { id = questionnaire.Id })'" />
+    @*<input type="button" class="btn btn-outline-primary" value="Archiver" onclick="location.href='@Url.Action("ArchiverQuestionnaire", "Questionnaire", new { id = item.Id })'" />*@
+
+
+</td>
+</tr>
+}
+}
+    </table>
+    @section Scripts {
+
+
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $(".lieu").click(function () {
+
+                //var sites = '@stringSite';
+                //var tabSites = sites.split(",");
+                var idQuestionnaire = $(this).closest("tr").find("td").eq(0).text().trim();
+                //var site1 = $("#site1" + idQuestionnaire).is(':checked');
+                //var site2 = $("#site2" + idQuestionnaire).is(':checked');
+                //var site3 = $("#site3" + idQuestionnaire).is(':checked');
+                //TODO la boucle ne me met que des valeurs false. I don't know why...
+                //for (let index = 0; index < tabSites.length; index++) {
+                var idSite = this.name.split("_")[0];
+                var bool = $("#" + this.name).is(':checked');
+                   // var envoiSites = new Array();
+                    //envoiSites[index][0] = tabSites[index];
+                    //envoiSites[index][1] = bool;
+                    //envoiSites[index][2] = idQuestionnaire;
+                    $.post({
+                        url: '@Url.Action("UpdateSitesQuestionnaire", "Site")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            idSite: idSite,
+                            cocher: bool,
+                            idQuestionnaire: idQuestionnaire
+                            //envoiSites: envoiSites
+
+                        }),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            console.log(data)
+                        }
+                    });
+                //}
+
+
+
+            });
+
+            $(".actif").click(function () {
+                var idQuestionnaire = $(this).closest("tr").find("td").eq(0).text().trim();
+                var boolActif = $("#actif" + idQuestionnaire).is(':checked');
+                $.post({
+                    url: '@Url.Action("UpdateActifQuestionnaire", "Questionnaire")',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({
+                        idQuestionnaire: idQuestionnaire,
+                        boolActif : boolActif
+                    }),
+                    success: function (data) {
+                        console.log(data)
+                    }
+
+                });
+
+            });
+
+            //Les filtres:
+            //Filtre par mot clé
+            $("#textSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#listeQuestionnaires tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $("deleteQuestionnaire").click(function () {
+                alert("fdfdfdfdfdfdfd");
+            })
+
+
+            //filtre par date
+
+            //$("#searchButton").click(function () {
+            //    start = $("#dateDepart").val();
+            //    start = $("#dateFin").val()
+            //    if ($("#dateDepart").val() !== null && $("#dateFin").val() !== null) {
+            //        startDate = convertDate($("#dateDepart").val());
+            //        endDate = convertDate($("#dateFin").val());
+            //        //searchByDate(startDate, endDate);
+            //        searchByDate2(startDate, endDate);
+
+            //    }
+            //});
+
+            //permet de faire la recherche par date premier essai
+            function searchByDate(startDate, endDate) {
+
+                startDateArray = startDate.split("/");
+                endDateArray = endDate.split("/");
+
+                var startDateTimeStamp = new Date(startDateArray[2], +startDateArray[0], startDateArray[1]).getTime();
+                var endDateTimeStamp = new Date(endDateArray[2], +endDateArray[0], endDateArray[1]).getTime();
+
+                $("#listeQuestionnaires tr").each(function () {
+                    var rowDate = $(this).find('td:eq(2)').html();
+                    var rowDateArray = rowDate.split("/");
+
+                    var rowDateTimeStamp = new Date(rowDateArray[2], +rowDateArray[0], rowDateArray[1]).getTime();
+                    // alert(startDateTimeStamp<=rowDateTimeStamp)
+                    // alert(rowDateTimeStamp<=endDateTimeStamp)
+                    if (startDateTimeStamp <= rowDateTimeStamp && rowDateTimeStamp <= endDateTimeStamp) {
+                        $(this).css("display", "block");
+                    } else {
+                        $(this).css("display", "none");
+                    }
+                });
+            }
+            //permet de faire la recherche par date deuxieme essai
+            function searchByDate2(startDate, endDate) {
+                // Initialise the inputs on page load:
+                var today = new Date().toJSON().replace(/..(..)-(..)-(..).*/, '$2/$3/$1');
+                $("#selectDate").datepicker({ dateFormat: 'mm/dd/yy' }).val(today).change(applyFilter);
+                $("#selectDate2").datepicker({ dateFormat: 'mm/dd/yy' }).val(today).change(applyFilter);
+                $("#rangeval").change(applyFilter);
+
+                $.fn.date = function () {
+                    return new Date((this.is(':input') ? this.val() : this.text()).replace(/\/(..)$/, '/20$1'));
+                }
+
+                function applyFilter() {
+                    var filterType = $("#rangeval").val(),
+                        start, end;
+                    // Set the visibility of the two date fields:
+                    $("#selectDate").toggle(["Single Date", "Custom Date Range"].indexOf(filterType) > -1);
+                    $("#selectDate2").toggle(filterType === "Custom Date Range");
+                    // Depending on the type of filter, set the range of dates (start, end):
+                    if (filterType === "") {
+                        // Show all: choose extreme dates
+                        start = new Date('1000-01-01');
+                        end = new Date('3000-01-01');
+                    } else if (!parseInt(filterType)) {
+                        // Use data entry:
+                        start = $("#selectDate").date();
+                        end = filterType === "Custom Date Range" ? $("#selectDate2").date() : start;
+                    } else {
+                        // Show last X days:
+                        start = new Date();
+                        start.setHours(0, 0, 0, 0);
+                        start.setDate(start.getDate() - parseInt(filterType));
+                        end = new Date(); // today
+                    }
+                    // For each row: set the visibility depending on the date range
+                    $(".mainBody tr").each(function () {
+                        var date = $("td:last-child", this).date();
+                        $(this).toggle(date >= start && date <= end);
+                    });
+                }
+                applyFilter(); // Execute also on page load
+            };
+
+            //ma fonction pour convertir les dates dans l'ordre que je veux
+            function convertDate(datePara) {
+                var date = new Date(datePara);
+                day = date.getDate();
+                month = date.getMonth() + 1;
+                year = date.getFullYear();
+                return ([day, month, year].join('/'));
+            }
+
+
+        });
+
+
+
+
+        </script>
+
+
+    }

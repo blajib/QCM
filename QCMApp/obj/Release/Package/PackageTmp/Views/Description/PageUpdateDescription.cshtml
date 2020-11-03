@@ -1,0 +1,97 @@
+﻿@model QCMApp.Elements
+@{
+    ViewBag.Title = "PageUpdateDescription";
+
+}
+
+<h2>Création description</h2>
+@*<form id="form1" runat="server">
+        <input type="file" name="postedFile" />
+        <input type="button" id="btnUpload" value="Upload" />
+        <progress id="fileProgress" style="display: none"></progress>
+        <hr />
+        <span id="lblMessage" style="color: Green"></span>
+    </form>*@
+@using (Html.BeginForm("UpdateDescription", "Description", FormMethod.Post))
+{
+    <hr class="style1" />
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" value="@Html.DisplayFor(model => model.intitule)" name="intitule" id="intitule" />
+        </div>
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            @*<input type="submit" class="btn-primary form-control" value="Aperçu" name="apercu" id="apercu" />*@
+        </div>
+
+        <div class="col-md-2">
+            <input type="submit" class="btn-primary form-control" value="Enregister" />
+        </div>
+        <input type="hidden" name="idQuestionnaire" value="@Html.DisplayFor(model => model.questionnaire_id)" />
+        <input type="hidden" name="idElement" value="@Html.DisplayFor(model => model.Id)" />
+    </div>
+
+
+    <hr class="style1" />
+    <div class="row">
+        <input  class="form-control" type="file" name="postedFile" />
+
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <textarea name="texte" class="form-control" rows="5" cols="400" id="textareaDescription">@Html.DisplayFor(model => model.texte)</textarea>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-4"><input class="form-control" type="file" name="postedFile" /></div>
+        <div class="col-md-4"><input class="form-control" type="file" name="postedFile" /></div>
+        <div class="col-md-4"><input class="form-control" type="file" name="postedFile" /></div>
+    </div>
+
+
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnUpload").click(function () {
+                $.ajax({
+                    url: '@Url.Action("UploadImage", "Media")',
+                    type: 'POST',
+                    data: new FormData($('form')[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (file) {
+                        $("#fileProgress").hide();
+                        $("#lblMessage").html("<b>" + file.name + "</b> has been uploaded.");
+                    },
+                    xhr: function () {
+                        var fileXhr = $.ajaxSettings.xhr();
+                            if (fileXhr.upload) {
+                                $("progress").show();
+                                fileXhr.upload.addEventListener("progress", function (e) {
+                                    if (e.lengthComputable) {
+                                        $("#fileProgress").attr({
+                                            value: e.loaded,
+                                            max: e.total
+                                        });
+                                    }
+                                }, false);
+                        }
+                        return fileXhr;
+                    }
+                });
+            });
+        });
+    </script>
+}
+

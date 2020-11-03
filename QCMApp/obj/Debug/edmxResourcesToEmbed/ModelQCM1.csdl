@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QCMAppBDDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Choixes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="intitule" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="statut" Type="Boolean" Nullable="false" />
+    <Property Name="media" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Elements" Relationship="Self.FK_Elements_Choixes" FromRole="Choixes" ToRole="Elements" />
+  </EntityType>
+  <EntityType Name="Elements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="intitule" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="reponses" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="media" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="couleur" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="doc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ChoixId" Type="Int32" Nullable="false" />
+    <Property Name="TypeElement_Id" Type="Int32" Nullable="false" />
+    <Property Name="questionnaire_id" Type="Int32" />
+    <NavigationProperty Name="Choixes" Relationship="Self.FK_Elements_Choixes" FromRole="Elements" ToRole="Choixes" />
+    <NavigationProperty Name="Questionnaires" Relationship="Self.FK_Elements_Questionnaires" FromRole="Elements" ToRole="Questionnaires" />
+    <NavigationProperty Name="TypeElements" Relationship="Self.FK_ElementTypeElement" FromRole="Elements" ToRole="TypeElements" />
+  </EntityType>
+  <EntityType Name="Questionnaires">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="intitule" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="couleur" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="note" Type="Int32" />
+    <NavigationProperty Name="Elements" Relationship="Self.FK_Elements_Questionnaires" FromRole="Questionnaires" ToRole="Elements" />
+  </EntityType>
+  <EntityType Name="Reponses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="idQuestionnaire" Type="Int32" Nullable="false" />
+    <Property Name="intituleQuestionnaire" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="idElement" Type="Int32" Nullable="false" />
+    <Property Name="intituleElement" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="idChoix" Type="Int32" Nullable="false" />
+    <Property Name="intituleChoix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="statut" Type="Boolean" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UtilisateurId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Utilisateurs" Relationship="Self.FK_UtilisateurReponse" FromRole="Reponses" ToRole="Utilisateurs" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TypeElements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Elements" Relationship="Self.FK_ElementTypeElement" FromRole="TypeElements" ToRole="Elements" />
+  </EntityType>
+  <EntityType Name="Utilisateurs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="prenom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="note" Type="Double" />
+    <Property Name="validation" Type="Int64" />
+    <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Reponses" Relationship="Self.FK_UtilisateurReponse" FromRole="Utilisateurs" ToRole="Reponses" />
+  </EntityType>
+  <Association Name="FK_Elements_Choixes">
+    <End Role="Choixes" Type="Self.Choixes" Multiplicity="1" />
+    <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Choixes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="ChoixId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Elements_Questionnaires">
+    <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="0..1" />
+    <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questionnaires">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="questionnaire_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ElementTypeElement">
+    <End Role="TypeElements" Type="Self.TypeElements" Multiplicity="1" />
+    <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeElements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="TypeElement_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UtilisateurReponse">
+    <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="1" />
+    <End Role="Reponses" Type="Self.Reponses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reponses">
+        <PropertyRef Name="UtilisateurId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QCMAppBDDEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Choixes" EntityType="Self.Choixes" />
+    <EntitySet Name="Elements" EntityType="Self.Elements" />
+    <EntitySet Name="Questionnaires" EntityType="Self.Questionnaires" />
+    <EntitySet Name="Reponses" EntityType="Self.Reponses" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TypeElements" EntityType="Self.TypeElements" />
+    <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" />
+    <AssociationSet Name="FK_Elements_Choixes" Association="Self.FK_Elements_Choixes">
+      <End Role="Choixes" EntitySet="Choixes" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Elements_Questionnaires" Association="Self.FK_Elements_Questionnaires">
+      <End Role="Questionnaires" EntitySet="Questionnaires" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ElementTypeElement" Association="Self.FK_ElementTypeElement">
+      <End Role="TypeElements" EntitySet="TypeElements" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UtilisateurReponse" Association="Self.FK_UtilisateurReponse">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Reponses" EntitySet="Reponses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

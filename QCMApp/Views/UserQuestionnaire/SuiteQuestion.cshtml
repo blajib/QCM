@@ -1,0 +1,251 @@
+﻿@using System.Configuration
+@using QCMApp.bll
+@model QCMApp.Models.ViewModelUserQuestionnaire
+
+
+@{
+    ViewBag.Title = "PageSuiteQuestion";
+
+    //var path = ConfigurationManager.AppSettings["imagesDirectoryRelatif"];
+    string _CST_DIRECTORY_IMAGES = "~/Content/images/";
+    var ordre = SessionManager.element.ordre - 1;
+    var greatAnswer = 0;
+    var badAnswer = 0;
+}
+<input type="hidden" id="nbrGoddAnswer" value="0" />
+<input type="hidden" id="nbrFalseAnswer" value="0" />
+<input type="hidden" id="idElement" value="@SessionManager.element.Id" />
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 messageErreur">
+        <div class="text-danger text-dangerJquery"></div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+<h2 class="titrePage">Question @Model.numeroQuestion</h2>
+
+    @if (Model.imagesUp != null)
+    {
+        if (Model.imagesUp.Count == 1)
+        {
+            <div class="containerImgBigUser">
+
+            @foreach (var image in Model.imagesUp)
+            {
+                var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format);
+                <img class="imageShowBig imgUser imgBigCenter" src="@superPath" />
+            }
+            </div>
+            <br />
+
+        }
+
+        else if (Model.imagesUp.Count > 1)
+        {
+            <div class="containerShowImage">
+            @foreach (var image in Model.imagesUp)
+            {
+                var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format);
+                <img class="imageShow imgUser" src="@superPath" />
+            }
+            </div>
+            <br />
+        }
+    }
+
+
+<div class="row">
+    <div class="col-md-12 textUser">
+        <p>@SessionManager.element.texte</p>
+    </div>
+</div>
+<br />
+
+<div class="containerChoixUser">
+
+    @foreach (var choix in Model.listChoix)
+    {
+        if (choix.statut == true)
+        {
+            <div class="row groupeChoixUser trueAnswer @(choix.imagePath == null ? "choixSansImage" : "choixAvecImage") " id="groupeChoixUser_@choix.Id">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 ">
+                    <input type="checkbox" id="checkbox_@choix.Id" class="trueAnswer checkBoxUtilisateur" onclick="fonctionCheckGood(@choix.Id)" />
+                    @{
+                        greatAnswer++;
+                    }
+                </div>
+                <div class="col-md-3">
+                    <p>@choix.intitule</p>
+                </div>
+                <div class="col-md-3">
+                    <img class="imgUserChoix" id="image_@choix.Id" src="@choix.imagePath" />
+                </div>
+                <div class="col-md-3">
+                    <input type="hidden" class=" @(choix.imagePath == null ? "iconeResultatSansImage" : "iconeResultatAvecImage")" name="name" src="~/Content/asserts/icones/logoValid.png" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row groupeChoixUser falseAnswer @(choix.imagePath == null ? "choixSansImage" : "choixAvecImage")" id="groupeChoixUser_@choix.Id">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <input type="checkbox" id="checkbox_@choix.Id" class="falseAnswer" onclick="fonctionCheckFalse(@choix.Id)" />
+                    @{ badAnswer++;}
+                </div>
+                <div class="col-md-3">
+                    <p>@choix.intitule</p>
+                </div>
+                <div class="col-md-3">
+                    <img class="imgUserChoix" id="image_@choix.Id" src="@choix.imagePath" />
+                </div>
+                <div class="col-md-3">
+                    <input type="hidden" class="@(choix.imagePath == null ? "iconeResultatSansImage" : "iconeResultatAvecImage")" name="name" src="~/Content/asserts/icones/logoError.png" />
+                </div>
+            </div>
+        }
+    }
+</div>
+<div id="blocReponse">
+    <input type="button" id="buttonAnswer" class="form-control btn-primary" value="Répondre" onclick="fonctionCheckReponse(@greatAnswer, @badAnswer)" />
+</div>
+
+<br />
+<div class="row">
+    <div class="col-md-2">
+        <input type="button" class="form-control btn-outline-primary" id="buttonBack" value="Retour" onclick="location.href = '@Url.Action("RetourDescription", "UserQuestionnaire",new {idElement = SessionManager.element.Id})'" />
+    </div>
+    <div class="col-md-8"></div>
+    <div class="col-md-2">
+        <input type="hidden" class="form-control btn-outline-primary" id="buttonFront" value="Suite" onclick="location.href = '@Url.Action("CheckNextElement", "UserQuestionnaire",new {idElement = SessionManager.element.Id})'" />
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-md-11"></div>
+    <div class="col-md-1">@ordre / @SessionManager.nombreElements</div>
+</div>
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function fonctionCheckGood(idChoix) {
+            var reponse = $("#checkbox_" + idChoix).is(':checked');
+            retour = parseInt($("#nbrGoddAnswer").val());
+            if (reponse == true) {
+                retour = retour + 1;
+                $("#nbrGoddAnswer").attr("value", retour);
+            } else {
+                retour = retour - 1;
+                $("#nbrGoddAnswer").attr("value", retour);
+            }
+        }
+
+        function fonctionCheckFalse(idChoix) {
+            var reponse = $("#checkbox_" + idChoix).is(':checked');
+            var retour = parseInt($("#nbrFalseAnswer").val());
+            if (reponse == true) {
+                retour = retour + 1;
+                $("#nbrFalseAnswer").attr("value", retour++);
+                //$("#groupeChoixUser_"+idChoix).attr("class", "row groupeChoixUser falseAnswer badAnswer");
+            } else {
+                retour = retour - 1;
+                $("#nbrFalseAnswer").attr("value", retour--);
+                //$("#groupeChoixUser_" + idChoix).attr("class", "row groupeChoixUser falseAnswer");
+            }
+        }
+
+        function fonctionCheckReponse(goodAnswer, badAnswer) {
+            var idElement = $("#idElement").val();
+            var bad = $("#nbrFalseAnswer").val();
+            var good = $("#nbrGoddAnswer").val();
+
+            var resultat = null;
+            $(".iconeResultatAvecImage").attr("type", "image");
+            $(".iconeResultatSansImage").attr("type", "image");
+
+
+            if (good == goodAnswer && bad == 0) {
+                $(".containerChoixUser").attr("class", "containerChoixUser bonneReponse");
+                resultat = true;
+            } else {
+                $(".containerChoixUser").attr("class", "containerChoixUser mauvaiseReponse");
+                resultat = false;
+            }
+            //if (good == goodAnswer && bad == 0) {
+            //    resultat = true;
+
+            //    //$(".trueAnswer").attr("class","row groupeChoixUser verifGoodAnswer trueAnswer");
+
+
+            //} else {
+            //    resultat = false;
+            //    //var element = `<div class="row">
+            //    //                <div class="col-md-3"></div>
+            //    //                <div class="col-md-6">
+            //    //                    <h1>Faaaaaauuuuuux</h1>
+            //    //                    <h2>Les bonnes réponses étaient</h2>
+            //    //                    <p>-</p>
+            //    //                    <p>-</p>
+            //    //                </div>
+            //    //                <div class="col-md-3"></div>
+            //    //            </div>`;
+            //    $(".containerChoix").html('');
+            //    $(".containerChoix").append(element);
+            //    //$(".trueAnswer").attr("class", "row groupeChoixUser verifGoodAnswer trueAnswer");
+            //    //$(".badAnswer").attr("class", "row groupeChoixUser verifBadAnswer ");
+
+            //}
+            $.post({
+                url: '@Url.Action("ReponseQuestion", "UserQuestionnaire")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    resultat: resultat,
+                    idQuestion: idElement
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (typeof date === "string") {
+                        $(".text-dangerJquery").append(data);
+
+                    } else {
+                        if (data == true) {
+                            reponse = `<div class="row">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <h1>Vous avez déja répondu à la question</h1>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>`;
+                            $(".containerChoixUser").html('');
+                            $(".containerChoixUser").append(reponse);
+                        }
+                    }
+                    
+                }
+            });
+
+            $("#buttonAnswer").attr("type", "hidden");
+            //$("#buttonBack").attr("type", "button");
+            $("#buttonFront").attr("type", "button");
+
+        }
+
+    </script>
+}

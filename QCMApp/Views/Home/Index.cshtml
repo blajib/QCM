@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 messageErreur">
+                <div class="text-danger">@ViewBag.Error</div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    }
+
+    <h1>QCM SGT</h1>
+</div>

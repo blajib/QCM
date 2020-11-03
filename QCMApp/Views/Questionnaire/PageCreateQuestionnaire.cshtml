@@ -1,0 +1,246 @@
+﻿@model QCMApp.Models.ViewModelQuestionnaireElements
+
+@{
+    ViewBag.Title = "CreateQuestionnaire";
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <br/>
+}
+<div class="row">
+    <div class="col-md-4">
+        <h2 class="titrePage">Création questionnaire</h2>
+    </div>
+    <div class="col-md-5">
+        <input type="text" class="form-control" value="@Model.questionnaire.intitule" name="intituleQuestionnaire" id="intituleQuestionnaire" size="100" />
+    </div>
+    <div class="col-md-3">
+    </div>
+
+</div>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            Intitulé de l'élément
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+
+        <th>
+            Actions
+        </th>
+
+
+        <th>Déplacer</th>
+    </tr>
+    @{
+        var compteur = 0;
+    }
+    @if (Model.elements != null)
+    {
+        foreach (var element in Model.elements)
+        {
+
+            <tr class="@(element.TypeElement_Id == 1 ? "ligneDescription" : "ligneQuestion")">
+                <td>
+
+                    <p class="typeElement" id="@(element.TypeElement_Id == 1 ? "descriptionType" : "questionType")">
+                        @(element.TypeElement_Id == 1 ? "Description" : "Question")
+                    </p>
+
+                </td>
+                <td>
+                    @element.intitule
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td>
+                    @if (element.TypeElement_Id == 1)
+                    {
+                        <input type="button" class="btn btn-outline-primary" value="Update" onclick="location.href='@Url.Action("PageUpdateDescription", "Description", new { idElement = element.Id})'" />
+                        <input type="button" class="btn btn-outline-primary" value="Delete" onclick="location.href='@Url.Action("DeleteElement", "Description", new { id = element.Id })'" />
+                    }
+                    else
+                    {
+                        <input type="button" class="btn btn-outline-primary" value="Update" onclick="location.href='@Url.Action("PageUpdateQuestion", "Question", new { idElement = element.Id})'" />
+                        <input type="button" class="btn btn-outline-primary" value="Delete" onclick="location.href='@Url.Action("DeleteQuestion", "Question", new { id = element.Id })'" />
+                    }
+
+
+
+                </td>
+
+                <th>
+                    @if (compteur == 0)
+                    {
+                        @*<input type="button" class="btn btn-light" value="+" onclick="location.href='@Url.Action("ElementDown", "Element", new { idElement = element.Id })'" />*@
+                        <input class="arrowButton" type="hidden" />
+                        <input class="rounded arrowButton border border-primary" type="image"
+                               src="~/Content/asserts/icones/fleche_down.png"
+                               onclick="location.href='@Url.Action("ElementDown", "Element", new { idElement = element.Id })'" />
+                        compteur++;
+                    }
+                    else if (compteur != Model.elements.Count - 1)
+                    {
+                        @*<input type="button" class="btn btn-light" value="-" onclick="location.href='@Url.Action("ElementUp", "Element", new { idElement = element.Id })'" />
+                            <input type="button" class="btn btn-light" value="+" onclick="location.href='@Url.Action("ElementDown", "Element", new { idElement = element.Id })'" />*@
+                        @*<input type="button" style="background: url(~/Content/asserts/open-iconic/svg/arrow-thick-bottom.svg)" class="btn btn-light" value="+" onclick="location.href='@Url.Action("ElementDown", "Element", new { idElement = element.Id })'" />
+                            <img src="~/Content/asserts/open-iconic/svg/arrow-thick-bottom.svg"  onclick="location.href='@Url.Action("ElementDown", "Element", new { idElement = element.Id })'"  alt="icon name">*@
+                        <input class="rounded arrowButton border border-primary" type="image"
+                               src="~/Content/asserts/icones/fleche_down.png"
+                               onclick="location.href='@Url.Action("ElementDown", "Element", new { idElement = element.Id })'" />
+                        <input class="rounded arrowButton border border-primary" type="image"
+                               src="~/Content/asserts/icones/fleche_haut.png"
+                               onclick="location.href='@Url.Action("ElementUp", "Element", new { idElement = element.Id })'" />
+
+                        compteur++;
+                    }
+                    else
+                    {
+                        <input class="rounded arrowButton border border-primary" type="image"
+                               src="~/Content/asserts/icones/fleche_haut.png"
+                               onclick="location.href='@Url.Action("ElementUp", "Element", new { idElement = element.Id })'" />
+                    }
+
+                </th>
+
+            </tr>
+        }
+    }
+</table>
+
+@*@if (Model.elements != null)
+    {
+        foreach (var element in Model.elements)
+        {
+            <div class="row">
+                <div class="col-mid-3">
+                    <h2>@element.intitule</h2>
+                </div>
+            </div>
+
+        }
+
+    }
+    <div class="row">
+        <div class="col-mid-3">
+
+        </div>
+    </div>*@
+
+<hr class="style1" />
+
+<div class="row">
+    <div class="col-md-2">
+        <br />
+        <br />
+
+        @*@Html.ActionLink("Nouvelle question", "", "Question", null, new { @class = "btn btn-default" })*@
+        <input type="button" name="newQuestion" id="newQuestion" class="btn btn-outline-primary" value="Nouvelle question" onclick="location.href='@Url.Action("PageCreateQuestion", "Question", new { idQuestionnaire = Model.questionnaire.Id })'" />
+    </div>
+    <div class="col-md-2">
+        <br />
+        <br />
+        @*@Html.ActionLink("Nouvelle description", "PageCreateDescription", "Element", new { id = Model.questionnaire.Id }, new { @class = "btn btn-default" })*@
+        <input type="button" class="btn btn-outline-primary" value="Nouvelle description" onclick="location.href='@Url.Action("PageCreateDescription", "Description", new { id = Model.questionnaire.Id })'" />
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-2">
+        <br />
+        <label for="note" style="font-size: small"> Note acceptable sur 20</label>
+        <input type="number" class="form-control" value="@Model.questionnaire.note" name="noteQuestionnaire" id="noteQuestionnaire" min="1" max="20" />
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+        <br />
+        <br />
+        <input type="submit" value="Enregister" id="saveQuestionnaire" onclick="fonctionSaveQuestionnaire()" class="btn btn-outline-primary" />
+    </div>
+    <div class="col-md-1" id="nombreQuestions">
+        <br />
+        <p style="font-size: small">Qts</p>
+        @{
+            var compteurQuestion = 0;
+        }
+        @foreach (var element in Model.elements)
+        {
+            if (element.TypeElement_Id == 2)
+            {
+                compteurQuestion++;
+            }
+
+        }
+        <p>@compteurQuestion</p>
+    </div>
+    <input type="hidden" value="@Html.DisplayFor(model => model.questionnaire.Id)" name="id" id="id" />
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        function fonctionSaveQuestionnaire() {
+            var intitule = $("#intituleQuestionnaire").val();
+            var note = $("#noteQuestionnaire").val();
+            var idQuestionnaire = $("#id").val();
+
+            $.post({
+                url: '@Url.Action("CreateQuestionnaireJquery", "Questionnaire")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    intitule : intitule,
+                    note: note,
+                    id : idQuestionnaire
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (json) {
+                    if (json.isRedirect) {
+                        window.location.href = json.redirectUrl;
+                    }
+                }
+
+            });
+        }
+
+
+    </script>
+}

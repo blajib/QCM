@@ -1,0 +1,83 @@
+﻿
+body{
+    padding-top:0px;
+
+}
+li{
+    margin-left:10px;
+}
+#textareaDescription{
+    width:1000px;
+}
+
+.typeElement {
+    font-weight: bold;
+    color:cornflowerblue;
+}
+#nombreQuestions {
+    text-align: center;
+}
+.arrowButton{
+    width : 1.5em;
+    padding: 4px;
+    
+}
+.filter-table .quick {
+    margin-left: 0.5em;
+    font-size: 0.8em;
+    text-decoration: none;
+}
+
+
+
+.fitler-table .quick:hover {
+    text-decoration: underline;
+}
+
+
+
+td.alt {
+    background-color: #ffc;
+    background-color: rgba(255, 255, 0, 0.2);
+}
+.barreRecherche{
+    margin-bottom:20px;
+}
+
+.searchQuestionnaire {
+    font-size: 12px;
+}
+#actifFilter{
+    margin-left:-28px;
+}
+#searchButton{
+    margin-top:30px;
+}
+.nouveauQuestionnaire{
+    margin-bottom:20px;
+    justify-content:center;
+}
+.filterRowQuestion{
+    margin-bottom:10px;
+}
+.submit-go{
+    margin-top:-30px;
+}
+#leBody{
+    margin-top:15px;
+}
+#buttonsActionsChoix{
+    display: flex;
+}
+#libelleTabChoix{
+    margin-bottom:20px;
+    text-align:center;
+}
+.buttonActionChoix{
+    margin-left:9px;
+}
+
+.titreQuestionnaire {
+    color: darkturquoise;
+    margin-top: 11px;
+}

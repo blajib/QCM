@@ -1,0 +1,727 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QCMAppBDDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Choixes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="intitule" Type="varchar" MaxLength="200" />
+          <Property Name="statut" Type="bit" Nullable="false" />
+          <Property Name="imagePath" Type="varchar" MaxLength="300" />
+          <Property Name="element_id" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Elements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="intitule" Type="varchar(max)" />
+          <Property Name="reponses" Type="varchar" MaxLength="150" />
+          <Property Name="ChoixId" Type="int" />
+          <Property Name="TypeElement_Id" Type="int" />
+          <Property Name="questionnaire_id" Type="int" />
+          <Property Name="texte" Type="varchar(max)" />
+          <Property Name="ordre" Type="int" />
+        </EntityType>
+        <EntityType Name="GroupeSiteQuestionnaire">
+          <Key>
+            <PropertyRef Name="Questionnaires_Id" />
+            <PropertyRef Name="Site_Id" />
+          </Key>
+          <Property Name="Questionnaires_Id" Type="int" Nullable="false" />
+          <Property Name="Site_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="200" />
+          <Property Name="idelement" Type="int" />
+          <Property Name="idchoix" Type="int" />
+          <Property Name="ordre" Type="int" />
+          <Property Name="format" Type="varchar" MaxLength="50" />
+          <Property Name="position" Type="int" />
+        </EntityType>
+        <EntityType Name="Questionnaires">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="intitule" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="couleur" Type="varchar" MaxLength="50" />
+          <Property Name="note" Type="int" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="actif" Type="bit" />
+        </EntityType>
+        <EntityType Name="Reponses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idElement" Type="int" />
+          <Property Name="intitueleElement" Type="varchar" MaxLength="100" />
+          <Property Name="statut" Type="bit" />
+          <Property Name="idResultat" Type="int" />
+          <Property Name="texteQuestion" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Resultat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="intituleQuestionnaire" Type="varchar" MaxLength="100" />
+          <Property Name="idQuestionnaire" Type="int" />
+          <Property Name="idUtilisateur" Type="int" />
+          <Property Name="tempsPassage" Type="int" />
+          <Property Name="datePassage" Type="datetime" />
+          <Property Name="noteObtenue" Type="float" />
+        </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TypeElements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilisateurs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" />
+          <Property Name="prenom" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Videos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="200" />
+          <Property Name="idelement" Type="int" />
+          <Property Name="format" Type="varchar" MaxLength="50" />
+          <Property Name="position" Type="int" />
+        </EntityType>
+        <Association Name="FK_Choixes_Elements">
+          <End Role="Elements" Type="Self.Elements" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Choixes" Type="Self.Choixes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Elements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Choixes">
+              <PropertyRef Name="element_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Elements_Questionnaires">
+          <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaires">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Elements">
+              <PropertyRef Name="questionnaire_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ElementTypeElement">
+          <End Role="TypeElements" Type="Self.TypeElements" Multiplicity="0..1" />
+          <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeElements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Elements">
+              <PropertyRef Name="TypeElement_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupeSiteQuestionnaire_Questionnaires">
+          <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="1" />
+          <End Role="GroupeSiteQuestionnaire" Type="Self.GroupeSiteQuestionnaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaires">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupeSiteQuestionnaire">
+              <PropertyRef Name="Questionnaires_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupeSiteQuestionnaire_Site">
+          <End Role="Site" Type="Self.Site" Multiplicity="1" />
+          <End Role="GroupeSiteQuestionnaire" Type="Self.GroupeSiteQuestionnaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupeSiteQuestionnaire">
+              <PropertyRef Name="Site_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Images_Elements1">
+          <End Role="Elements" Type="Self.Elements" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Elements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="idelement" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reponses_Resultat">
+          <End Role="Resultat" Type="Self.Resultat" Multiplicity="0..1" />
+          <End Role="Reponses" Type="Self.Reponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resultat">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reponses">
+              <PropertyRef Name="idResultat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Resultat_Utilisateurs">
+          <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="0..1" />
+          <End Role="Resultat" Type="Self.Resultat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resultat">
+              <PropertyRef Name="idUtilisateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Videos_Elements1">
+          <End Role="Elements" Type="Self.Elements" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Videos" Type="Self.Videos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Elements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Videos">
+              <PropertyRef Name="idelement" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QCMAppBDDModelStoreContainer">
+          <EntitySet Name="Choixes" EntityType="Self.Choixes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Elements" EntityType="Self.Elements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupeSiteQuestionnaire" EntityType="Self.GroupeSiteQuestionnaire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questionnaires" EntityType="Self.Questionnaires" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reponses" EntityType="Self.Reponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resultat" EntityType="Self.Resultat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Site" EntityType="Self.Site" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeElements" EntityType="Self.TypeElements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Videos" EntityType="Self.Videos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Choixes_Elements" Association="Self.FK_Choixes_Elements">
+            <End Role="Elements" EntitySet="Elements" />
+            <End Role="Choixes" EntitySet="Choixes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Elements_Questionnaires" Association="Self.FK_Elements_Questionnaires">
+            <End Role="Questionnaires" EntitySet="Questionnaires" />
+            <End Role="Elements" EntitySet="Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ElementTypeElement" Association="Self.FK_ElementTypeElement">
+            <End Role="TypeElements" EntitySet="TypeElements" />
+            <End Role="Elements" EntitySet="Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupeSiteQuestionnaire_Questionnaires" Association="Self.FK_GroupeSiteQuestionnaire_Questionnaires">
+            <End Role="Questionnaires" EntitySet="Questionnaires" />
+            <End Role="GroupeSiteQuestionnaire" EntitySet="GroupeSiteQuestionnaire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupeSiteQuestionnaire_Site" Association="Self.FK_GroupeSiteQuestionnaire_Site">
+            <End Role="Site" EntitySet="Site" />
+            <End Role="GroupeSiteQuestionnaire" EntitySet="GroupeSiteQuestionnaire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Images_Elements1" Association="Self.FK_Images_Elements1">
+            <End Role="Elements" EntitySet="Elements" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reponses_Resultat" Association="Self.FK_Reponses_Resultat">
+            <End Role="Resultat" EntitySet="Resultat" />
+            <End Role="Reponses" EntitySet="Reponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Resultat_Utilisateurs" Association="Self.FK_Resultat_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Resultat" EntitySet="Resultat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Videos_Elements1" Association="Self.FK_Videos_Elements1">
+            <End Role="Elements" EntitySet="Elements" />
+            <End Role="Videos" EntitySet="Videos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QCMAppBDDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="QCMAppBDDEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="QCMAppBDDModel.sysdiagrams" />
+          <EntitySet Name="Choixes" EntityType="QCMAppBDDModel.Choixes" />
+          <EntitySet Name="Elements" EntityType="QCMAppBDDModel.Elements" />
+          <EntitySet Name="Images" EntityType="QCMAppBDDModel.Images" />
+          <EntitySet Name="Questionnaires" EntityType="QCMAppBDDModel.Questionnaires" />
+          <EntitySet Name="Reponses" EntityType="QCMAppBDDModel.Reponses" />
+          <EntitySet Name="Resultat" EntityType="QCMAppBDDModel.Resultat" />
+          <EntitySet Name="Site" EntityType="QCMAppBDDModel.Site" />
+          <EntitySet Name="TypeElements" EntityType="QCMAppBDDModel.TypeElements" />
+          <EntitySet Name="Utilisateurs" EntityType="QCMAppBDDModel.Utilisateurs" />
+          <EntitySet Name="Videos" EntityType="QCMAppBDDModel.Videos" />
+          <AssociationSet Name="FK_Choixes_Elements" Association="QCMAppBDDModel.FK_Choixes_Elements">
+            <End Role="Elements" EntitySet="Elements" />
+            <End Role="Choixes" EntitySet="Choixes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Elements_Questionnaires" Association="QCMAppBDDModel.FK_Elements_Questionnaires">
+            <End Role="Questionnaires" EntitySet="Questionnaires" />
+            <End Role="Elements" EntitySet="Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ElementTypeElement" Association="QCMAppBDDModel.FK_ElementTypeElement">
+            <End Role="TypeElements" EntitySet="TypeElements" />
+            <End Role="Elements" EntitySet="Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Images_Elements1" Association="QCMAppBDDModel.FK_Images_Elements1">
+            <End Role="Elements" EntitySet="Elements" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Videos_Elements1" Association="QCMAppBDDModel.FK_Videos_Elements1">
+            <End Role="Elements" EntitySet="Elements" />
+            <End Role="Videos" EntitySet="Videos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reponses_Resultat" Association="QCMAppBDDModel.FK_Reponses_Resultat">
+            <End Role="Resultat" EntitySet="Resultat" />
+            <End Role="Reponses" EntitySet="Reponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Resultat_Utilisateurs" Association="QCMAppBDDModel.FK_Resultat_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Resultat" EntitySet="Resultat" />
+          </AssociationSet>
+          <AssociationSet Name="GroupeSiteQuestionnaire" Association="QCMAppBDDModel.GroupeSiteQuestionnaire">
+            <End Role="Questionnaires" EntitySet="Questionnaires" />
+            <End Role="Site" EntitySet="Site" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Choixes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intitule" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="statut" Type="Boolean" Nullable="false" />
+          <Property Name="imagePath" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="element_id" Type="Int32" Nullable="false" />
+          <Property Name="image_id" Type="Int32" />
+          <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_Choixes_Elements" FromRole="Choixes" ToRole="Elements" />
+        </EntityType>
+        <EntityType Name="Elements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intitule" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="reponses" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ChoixId" Type="Int32" />
+          <Property Name="TypeElement_Id" Type="Int32" />
+          <Property Name="questionnaire_id" Type="Int32" />
+          <Property Name="texte" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ordre" Type="Int32" />
+          <NavigationProperty Name="Choixes" Relationship="QCMAppBDDModel.FK_Choixes_Elements" FromRole="Elements" ToRole="Choixes" />
+          <NavigationProperty Name="Questionnaires" Relationship="QCMAppBDDModel.FK_Elements_Questionnaires" FromRole="Elements" ToRole="Questionnaires" />
+          <NavigationProperty Name="TypeElements" Relationship="QCMAppBDDModel.FK_ElementTypeElement" FromRole="Elements" ToRole="TypeElements" />
+          <NavigationProperty Name="Images" Relationship="QCMAppBDDModel.FK_Images_Elements1" FromRole="Elements" ToRole="Images" />
+          <NavigationProperty Name="Videos" Relationship="QCMAppBDDModel.FK_Videos_Elements1" FromRole="Elements" ToRole="Videos" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="idelement" Type="Int32" />
+          <Property Name="idchoix" Type="Int32" />
+          <Property Name="ordre" Type="Int32" />
+          <Property Name="format" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="position" Type="Int32" />
+          <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_Images_Elements1" FromRole="Images" ToRole="Elements" />
+        </EntityType>
+        <EntityType Name="Questionnaires">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intitule" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="couleur" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="note" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="actif" Type="Boolean" />
+          <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_Elements_Questionnaires" FromRole="Questionnaires" ToRole="Elements" />
+          <NavigationProperty Name="Site" Relationship="QCMAppBDDModel.GroupeSiteQuestionnaire" FromRole="Questionnaires" ToRole="Site" />
+        </EntityType>
+        <EntityType Name="Reponses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idElement" Type="Int32" />
+          <Property Name="intitueleElement" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="statut" Type="Boolean" />
+          <Property Name="idResultat" Type="Int32" />
+          <Property Name="texteQuestion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Resultat" Relationship="QCMAppBDDModel.FK_Reponses_Resultat" FromRole="Reponses" ToRole="Resultat" />
+        </EntityType>
+        <EntityType Name="Resultat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="intituleQuestionnaire" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idQuestionnaire" Type="Int32" />
+          <Property Name="idUtilisateur" Type="Int32" />
+          <Property Name="tempsPassage" Type="Int32" />
+          <Property Name="datePassage" Type="DateTime" Precision="3" />
+          <Property Name="noteObtenue" Type="Double" />
+          <NavigationProperty Name="Reponses" Relationship="QCMAppBDDModel.FK_Reponses_Resultat" FromRole="Resultat" ToRole="Reponses" />
+          <NavigationProperty Name="Utilisateurs" Relationship="QCMAppBDDModel.FK_Resultat_Utilisateurs" FromRole="Resultat" ToRole="Utilisateurs" />
+        </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Questionnaires" Relationship="QCMAppBDDModel.GroupeSiteQuestionnaire" FromRole="Site" ToRole="Questionnaires" />
+        </EntityType>
+        <EntityType Name="TypeElements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_ElementTypeElement" FromRole="TypeElements" ToRole="Elements" />
+        </EntityType>
+        <EntityType Name="Utilisateurs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Resultat" Relationship="QCMAppBDDModel.FK_Resultat_Utilisateurs" FromRole="Utilisateurs" ToRole="Resultat" />
+        </EntityType>
+        <EntityType Name="Videos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="idelement" Type="Int32" />
+          <Property Name="format" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="position" Type="Int32" />
+          <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_Videos_Elements1" FromRole="Videos" ToRole="Elements" />
+        </EntityType>
+        <Association Name="FK_Choixes_Elements">
+          <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="QCMAppBDDModel.Choixes" Role="Choixes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Elements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Choixes">
+              <PropertyRef Name="element_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Elements_Questionnaires">
+          <End Type="QCMAppBDDModel.Questionnaires" Role="Questionnaires" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaires">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Elements">
+              <PropertyRef Name="questionnaire_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ElementTypeElement">
+          <End Type="QCMAppBDDModel.TypeElements" Role="TypeElements" Multiplicity="0..1" />
+          <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeElements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Elements">
+              <PropertyRef Name="TypeElement_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Images_Elements1">
+          <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="QCMAppBDDModel.Images" Role="Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Elements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="idelement" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Videos_Elements1">
+          <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="QCMAppBDDModel.Videos" Role="Videos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Elements">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Videos">
+              <PropertyRef Name="idelement" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reponses_Resultat">
+          <End Type="QCMAppBDDModel.Resultat" Role="Resultat" Multiplicity="0..1" />
+          <End Type="QCMAppBDDModel.Reponses" Role="Reponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resultat">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reponses">
+              <PropertyRef Name="idResultat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Resultat_Utilisateurs">
+          <End Type="QCMAppBDDModel.Utilisateurs" Role="Utilisateurs" Multiplicity="0..1" />
+          <End Type="QCMAppBDDModel.Resultat" Role="Resultat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resultat">
+              <PropertyRef Name="idUtilisateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GroupeSiteQuestionnaire">
+          <End Type="QCMAppBDDModel.Questionnaires" Role="Questionnaires" Multiplicity="*" />
+          <End Type="QCMAppBDDModel.Site" Role="Site" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QCMAppBDDModelStoreContainer" CdmEntityContainer="QCMAppBDDEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Choixes">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Choixes">
+              <MappingFragment StoreEntitySet="Choixes">
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="element_id" ColumnName="element_id" />
+                <ScalarProperty Name="imagePath" ColumnName="imagePath" />
+                <ScalarProperty Name="statut" ColumnName="statut" />
+                <ScalarProperty Name="intitule" ColumnName="intitule" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Elements">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Elements">
+              <MappingFragment StoreEntitySet="Elements">
+                <ScalarProperty Name="ordre" ColumnName="ordre" />
+                <ScalarProperty Name="texte" ColumnName="texte" />
+                <ScalarProperty Name="questionnaire_id" ColumnName="questionnaire_id" />
+                <ScalarProperty Name="TypeElement_Id" ColumnName="TypeElement_Id" />
+                <ScalarProperty Name="ChoixId" ColumnName="ChoixId" />
+                <ScalarProperty Name="reponses" ColumnName="reponses" />
+                <ScalarProperty Name="intitule" ColumnName="intitule" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Images">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="format" ColumnName="format" />
+                <ScalarProperty Name="ordre" ColumnName="ordre" />
+                <ScalarProperty Name="idchoix" ColumnName="idchoix" />
+                <ScalarProperty Name="idelement" ColumnName="idelement" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questionnaires">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Questionnaires">
+              <MappingFragment StoreEntitySet="Questionnaires">
+                <ScalarProperty Name="actif" ColumnName="actif" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="couleur" ColumnName="couleur" />
+                <ScalarProperty Name="intitule" ColumnName="intitule" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reponses">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Reponses">
+              <MappingFragment StoreEntitySet="Reponses">
+                <ScalarProperty Name="texteQuestion" ColumnName="texteQuestion" />
+                <ScalarProperty Name="idResultat" ColumnName="idResultat" />
+                <ScalarProperty Name="statut" ColumnName="statut" />
+                <ScalarProperty Name="intitueleElement" ColumnName="intitueleElement" />
+                <ScalarProperty Name="idElement" ColumnName="idElement" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resultat">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Resultat">
+              <MappingFragment StoreEntitySet="Resultat">
+                <ScalarProperty Name="noteObtenue" ColumnName="noteObtenue" />
+                <ScalarProperty Name="datePassage" ColumnName="datePassage" />
+                <ScalarProperty Name="tempsPassage" ColumnName="tempsPassage" />
+                <ScalarProperty Name="idUtilisateur" ColumnName="idUtilisateur" />
+                <ScalarProperty Name="idQuestionnaire" ColumnName="idQuestionnaire" />
+                <ScalarProperty Name="intituleQuestionnaire" ColumnName="intituleQuestionnaire" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Site">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Site">
+              <MappingFragment StoreEntitySet="Site">
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeElements">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.TypeElements">
+              <MappingFragment StoreEntitySet="TypeElements">
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilisateurs">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Utilisateurs">
+              <MappingFragment StoreEntitySet="Utilisateurs">
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Videos">
+            <EntityTypeMapping TypeName="QCMAppBDDModel.Videos">
+              <MappingFragment StoreEntitySet="Videos">
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="format" ColumnName="format" />
+                <ScalarProperty Name="idelement" ColumnName="idelement" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="GroupeSiteQuestionnaire" TypeName="QCMAppBDDModel.GroupeSiteQuestionnaire" StoreEntitySet="GroupeSiteQuestionnaire">
+            <EndProperty Name="Site">
+              <ScalarProperty Name="Id" ColumnName="Site_Id" />
+            </EndProperty>
+            <EndProperty Name="Questionnaires">
+              <ScalarProperty Name="Id" ColumnName="Questionnaires_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

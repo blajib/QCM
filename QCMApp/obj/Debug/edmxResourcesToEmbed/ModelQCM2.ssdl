@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QCMAppBDDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Choixes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="intitule" Type="varchar" MaxLength="200" />
+    <Property Name="statut" Type="bit" Nullable="false" />
+    <Property Name="imagePath" Type="varchar" MaxLength="300" />
+    <Property Name="element_id" Type="int" Nullable="false" />
+    <Property Name="image_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Elements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="intitule" Type="varchar(max)" />
+    <Property Name="reponses" Type="varchar" MaxLength="150" />
+    <Property Name="ChoixId" Type="int" />
+    <Property Name="TypeElement_Id" Type="int" />
+    <Property Name="questionnaire_id" Type="int" />
+    <Property Name="texte" Type="varchar(max)" />
+    <Property Name="ordre" Type="int" />
+  </EntityType>
+  <EntityType Name="GroupeSiteQuestionnaire">
+    <Key>
+      <PropertyRef Name="Questionnaires_Id" />
+      <PropertyRef Name="Site_Id" />
+    </Key>
+    <Property Name="Questionnaires_Id" Type="int" Nullable="false" />
+    <Property Name="Site_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="200" />
+    <Property Name="idelement" Type="int" />
+    <Property Name="idchoix" Type="int" />
+    <Property Name="ordre" Type="int" />
+    <Property Name="format" Type="varchar" MaxLength="50" />
+    <Property Name="position" Type="int" />
+  </EntityType>
+  <EntityType Name="Questionnaires">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="intitule" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="couleur" Type="varchar" MaxLength="50" />
+    <Property Name="note" Type="int" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="actif" Type="bit" />
+  </EntityType>
+  <EntityType Name="Reponses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idElement" Type="int" />
+    <Property Name="intitueleElement" Type="varchar" MaxLength="100" />
+    <Property Name="statut" Type="bit" />
+    <Property Name="idResultat" Type="int" />
+    <Property Name="texteQuestion" Type="varchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="Resultat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="intituleQuestionnaire" Type="varchar" MaxLength="100" />
+    <Property Name="idQuestionnaire" Type="int" />
+    <Property Name="idUtilisateur" Type="int" />
+    <Property Name="tempsPassage" Type="int" />
+    <Property Name="datePassage" Type="datetime" />
+    <Property Name="noteObtenue" Type="float" />
+  </EntityType>
+  <EntityType Name="Site">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TypeElements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Utilisateurs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="50" />
+    <Property Name="prenom" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Videos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="200" />
+    <Property Name="idelement" Type="int" />
+    <Property Name="format" Type="varchar" MaxLength="50" />
+    <Property Name="position" Type="int" />
+  </EntityType>
+  <Association Name="FK_Choixes_Elements">
+    <End Role="Elements" Type="Self.Elements" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Choixes" Type="Self.Choixes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Elements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Choixes">
+        <PropertyRef Name="element_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Elements_Questionnaires">
+    <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questionnaires">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="questionnaire_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ElementTypeElement">
+    <End Role="TypeElements" Type="Self.TypeElements" Multiplicity="0..1" />
+    <End Role="Elements" Type="Self.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeElements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="TypeElement_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupeSiteQuestionnaire_Questionnaires">
+    <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="1" />
+    <End Role="GroupeSiteQuestionnaire" Type="Self.GroupeSiteQuestionnaire" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questionnaires">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupeSiteQuestionnaire">
+        <PropertyRef Name="Questionnaires_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupeSiteQuestionnaire_Site">
+    <End Role="Site" Type="Self.Site" Multiplicity="1" />
+    <End Role="GroupeSiteQuestionnaire" Type="Self.GroupeSiteQuestionnaire" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Site">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupeSiteQuestionnaire">
+        <PropertyRef Name="Site_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Images_Elements1">
+    <End Role="Elements" Type="Self.Elements" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Images" Type="Self.Images" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Elements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Images">
+        <PropertyRef Name="idelement" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reponses_Resultat">
+    <End Role="Resultat" Type="Self.Resultat" Multiplicity="0..1" />
+    <End Role="Reponses" Type="Self.Reponses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Resultat">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reponses">
+        <PropertyRef Name="idResultat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Resultat_Utilisateurs">
+    <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="0..1" />
+    <End Role="Resultat" Type="Self.Resultat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Resultat">
+        <PropertyRef Name="idUtilisateur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Videos_Elements1">
+    <End Role="Elements" Type="Self.Elements" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Videos" Type="Self.Videos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Elements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Videos">
+        <PropertyRef Name="idelement" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QCMAppBDDModelStoreContainer">
+    <EntitySet Name="Choixes" EntityType="Self.Choixes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Elements" EntityType="Self.Elements" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupeSiteQuestionnaire" EntityType="Self.GroupeSiteQuestionnaire" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Questionnaires" EntityType="Self.Questionnaires" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reponses" EntityType="Self.Reponses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resultat" EntityType="Self.Resultat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Site" EntityType="Self.Site" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeElements" EntityType="Self.TypeElements" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Videos" EntityType="Self.Videos" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Choixes_Elements" Association="Self.FK_Choixes_Elements">
+      <End Role="Elements" EntitySet="Elements" />
+      <End Role="Choixes" EntitySet="Choixes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Elements_Questionnaires" Association="Self.FK_Elements_Questionnaires">
+      <End Role="Questionnaires" EntitySet="Questionnaires" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ElementTypeElement" Association="Self.FK_ElementTypeElement">
+      <End Role="TypeElements" EntitySet="TypeElements" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupeSiteQuestionnaire_Questionnaires" Association="Self.FK_GroupeSiteQuestionnaire_Questionnaires">
+      <End Role="Questionnaires" EntitySet="Questionnaires" />
+      <End Role="GroupeSiteQuestionnaire" EntitySet="GroupeSiteQuestionnaire" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupeSiteQuestionnaire_Site" Association="Self.FK_GroupeSiteQuestionnaire_Site">
+      <End Role="Site" EntitySet="Site" />
+      <End Role="GroupeSiteQuestionnaire" EntitySet="GroupeSiteQuestionnaire" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Images_Elements1" Association="Self.FK_Images_Elements1">
+      <End Role="Elements" EntitySet="Elements" />
+      <End Role="Images" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reponses_Resultat" Association="Self.FK_Reponses_Resultat">
+      <End Role="Resultat" EntitySet="Resultat" />
+      <End Role="Reponses" EntitySet="Reponses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Resultat_Utilisateurs" Association="Self.FK_Resultat_Utilisateurs">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Resultat" EntitySet="Resultat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Videos_Elements1" Association="Self.FK_Videos_Elements1">
+      <End Role="Elements" EntitySet="Elements" />
+      <End Role="Videos" EntitySet="Videos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QCMAppBDDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="QCMAppBDDEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Choixes" EntityType="QCMAppBDDModel.Choixes" />
+    <EntitySet Name="Elements" EntityType="QCMAppBDDModel.Elements" />
+    <EntitySet Name="Questionnaires" EntityType="QCMAppBDDModel.Questionnaires" />
+    <EntitySet Name="Reponses" EntityType="QCMAppBDDModel.Reponses" />
+    <EntitySet Name="Site" EntityType="QCMAppBDDModel.Site" />
+    <EntitySet Name="sysdiagrams" EntityType="QCMAppBDDModel.sysdiagrams" />
+    <EntitySet Name="TypeElements" EntityType="QCMAppBDDModel.TypeElements" />
+    <EntitySet Name="Utilisateurs" EntityType="QCMAppBDDModel.Utilisateurs" />
+    <AssociationSet Name="FK_Choixes_Elements" Association="QCMAppBDDModel.FK_Choixes_Elements">
+      <End Role="Elements" EntitySet="Elements" />
+      <End Role="Choixes" EntitySet="Choixes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Elements_Questionnaires" Association="QCMAppBDDModel.FK_Elements_Questionnaires">
+      <End Role="Questionnaires" EntitySet="Questionnaires" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ElementTypeElement" Association="QCMAppBDDModel.FK_ElementTypeElement">
+      <End Role="TypeElements" EntitySet="TypeElements" />
+      <End Role="Elements" EntitySet="Elements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UtilisateurReponse" Association="QCMAppBDDModel.FK_UtilisateurReponse">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Reponses" EntitySet="Reponses" />
+    </AssociationSet>
+    <AssociationSet Name="GroupeSiteQuestionnaire" Association="QCMAppBDDModel.GroupeSiteQuestionnaire">
+      <End Role="Questionnaires" EntitySet="Questionnaires" />
+      <End Role="Site" EntitySet="Site" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Choixes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="intitule" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="statut" Type="Boolean" />
+    <Property Name="media" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="element_id" Type="Int32" />
+    <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_Choixes_Elements" FromRole="Choixes" ToRole="Elements" />
+  </EntityType>
+  <EntityType Name="Elements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="intitule" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="reponses" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="media" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="couleur" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="doc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ChoixId" Type="Int32" />
+    <Property Name="TypeElement_Id" Type="Int32" />
+    <Property Name="questionnaire_id" Type="Int32" />
+    <Property Name="texte" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ordre" Type="Int32" />
+    <NavigationProperty Name="Choixes" Relationship="QCMAppBDDModel.FK_Choixes_Elements" FromRole="Elements" ToRole="Choixes" />
+    <NavigationProperty Name="Questionnaires" Relationship="QCMAppBDDModel.FK_Elements_Questionnaires" FromRole="Elements" ToRole="Questionnaires" />
+    <NavigationProperty Name="TypeElements" Relationship="QCMAppBDDModel.FK_ElementTypeElement" FromRole="Elements" ToRole="TypeElements" />
+  </EntityType>
+  <EntityType Name="Questionnaires">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="intitule" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="couleur" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="note" Type="Int32" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+    <Property Name="actif" Type="Boolean" />
+    <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_Elements_Questionnaires" FromRole="Questionnaires" ToRole="Elements" />
+    <NavigationProperty Name="Site" Relationship="QCMAppBDDModel.GroupeSiteQuestionnaire" FromRole="Questionnaires" ToRole="Site" />
+  </EntityType>
+  <EntityType Name="Reponses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idQuestionnaire" Type="Int32" Nullable="false" />
+    <Property Name="intituleQuestionnaire" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="idElement" Type="Int32" Nullable="false" />
+    <Property Name="intituleElement" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="idChoix" Type="Int32" Nullable="false" />
+    <Property Name="intituleChoix" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="statut" Type="Boolean" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UtilisateurId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Utilisateurs" Relationship="QCMAppBDDModel.FK_UtilisateurReponse" FromRole="Reponses" ToRole="Utilisateurs" />
+  </EntityType>
+  <EntityType Name="Site">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Questionnaires" Relationship="QCMAppBDDModel.GroupeSiteQuestionnaire" FromRole="Site" ToRole="Questionnaires" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TypeElements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Elements" Relationship="QCMAppBDDModel.FK_ElementTypeElement" FromRole="TypeElements" ToRole="Elements" />
+  </EntityType>
+  <EntityType Name="Utilisateurs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="prenom" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="note" Type="Double" />
+    <Property Name="validation" Type="Int64" />
+    <Property Name="role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Reponses" Relationship="QCMAppBDDModel.FK_UtilisateurReponse" FromRole="Utilisateurs" ToRole="Reponses" />
+  </EntityType>
+  <Association Name="FK_Choixes_Elements">
+    <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="QCMAppBDDModel.Choixes" Role="Choixes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Elements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Choixes">
+        <PropertyRef Name="element_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Elements_Questionnaires">
+    <End Type="QCMAppBDDModel.Questionnaires" Role="Questionnaires" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questionnaires">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="questionnaire_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ElementTypeElement">
+    <End Type="QCMAppBDDModel.TypeElements" Role="TypeElements" Multiplicity="0..1" />
+    <End Type="QCMAppBDDModel.Elements" Role="Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeElements">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Elements">
+        <PropertyRef Name="TypeElement_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UtilisateurReponse">
+    <End Type="QCMAppBDDModel.Utilisateurs" Role="Utilisateurs" Multiplicity="1" />
+    <End Type="QCMAppBDDModel.Reponses" Role="Reponses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reponses">
+        <PropertyRef Name="UtilisateurId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupeSiteQuestionnaire">
+    <End Type="QCMAppBDDModel.Questionnaires" Role="Questionnaires" Multiplicity="*" />
+    <End Type="QCMAppBDDModel.Site" Role="Site" Multiplicity="*" />
+  </Association>
+</Schema>

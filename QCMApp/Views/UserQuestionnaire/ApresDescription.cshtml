@@ -1,0 +1,112 @@
+﻿
+@using System.Configuration
+@using QCMApp.bll
+@model QCMApp.Models.ViewModelUserQuestionnaire
+
+
+@{
+    ViewBag.Title = "PageSuiteDescription";
+
+    //var path = ConfigurationManager.AppSettings["imagesDirectoryRelatif"];
+    string _CST_DIRECTORY_IMAGES = "~/Content/images/";
+    string _CST_DIRECTORY_VIDEOS = "~/Content/videos/";
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+
+@*<h2 class="titrePage">Index</h2>*@
+@if (Model.imagesUp != null)
+{
+    if (Model.imagesUp.Count == 1)
+    {
+        <div class="containerImgBigUser">
+
+            @foreach (var image in Model.imagesUp)
+            {
+                var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format);
+                <img class="imageShowBig imgUser imgBigCenter" src="@superPath" />
+            }
+        </div>
+        <br />
+
+    }
+
+    else if (Model.imagesUp.Count > 1)
+    {
+        <div class="containerShowImage">
+            @foreach (var image in Model.imagesUp)
+            {
+                var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format);
+                <img class="imageShow imgUser" src="@superPath" />
+            }
+        </div>
+        <br />
+    }else if (Model.video != null)
+    {
+        var superPath = Url.Content(_CST_DIRECTORY_VIDEOS + Model.video.nom + "." + Model.video.format);
+        <div class="blocVideo">
+            <video class="lolCat" controls="controls">
+                <source src="@superPath" type="video/@Model.video.format" />
+                @*<source src="@superPath"  type="video/webm" />
+                        <source src="@superPath"  type="video/ogg" />*@
+            </video>
+            @*<video class="imageShowBig" src="@superPath" id="image_@Model.video.Id" alt="video présentation description" /><video />*@
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="col-md-12 textUser">
+        <p>@Model.element.texte</p>
+    </div>
+</div>
+<br />
+
+@if (Model.imagesDown != null)
+{
+    if (Model.imagesDown.Count == 1)
+    {
+        <div class="containerImgBigUser">
+
+            @foreach (var image in Model.imagesDown)
+            {
+                var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format);
+                <img class="imageShowBig imgUser imgBigCenter" src="@superPath" />
+            }
+        </div>
+        <br />
+
+    }
+
+    else if (Model.imagesDown.Count > 1)
+    {
+        <div class="containerShowImage">
+            @foreach (var image in Model.imagesDown)
+            {
+                var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format);
+                <img class="imageShow imgUser" src="@superPath" />
+            }
+        </div>
+        <br />
+    }
+}
+<br />
+<div class="row">
+    <div class="col-md-2">
+        <input type="button" class="form-control btn-outline-primary" value="Retour" onclick="location.href = '@Url.Action("RetourDescription", "UserQuestionnaire", new{idElement =  Model.element.Id})'" />
+    </div>
+    <div class="col-md-7"></div>
+    <div class="col-md-3">
+        <input type="button" class="form-control btn-outline-primary" value="Continuer Questionnaire" onclick="location.href = '@Url.Action("RetourElementEnCours", "UserQuestionnaire")'" />
+        <br />
+        <input type="button" class="form-control btn-outline-primary" value="Suite info" onclick="location.href = '@Url.Action("ApresDescription", "UserQuestionnaire",new{idElement = Model.element.Id})'" />
+    </div>
+</div>

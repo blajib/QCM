@@ -1,0 +1,283 @@
+﻿
+body{
+    padding-top:0px;
+
+}
+li{
+    margin-left:10px;
+}
+#textareaDescription{
+    width:1000px;
+}
+
+.typeElement {
+    font-weight: bold;
+}
+#descriptionType {
+    color: cornflowerblue;
+}
+#questionType {
+    color: brown;
+}
+#nombreQuestions {
+    text-align: center;
+}
+.arrowButton{
+    width : 1.5em;
+    padding: 4px;
+    
+}
+.filter-table .quick {
+    margin-left: 0.5em;
+    font-size: 0.8em;
+    text-decoration: none;
+}
+
+
+
+.fitler-table .quick:hover {
+    text-decoration: underline;
+}
+
+
+
+td.alt {
+    background-color: #ffc;
+    background-color: rgba(255, 255, 0, 0.2);
+}
+.barreRecherche{
+    margin-bottom:20px;
+}
+
+.searchQuestionnaire {
+    font-size: 12px;
+}
+#actifFilter{
+    margin-left:-28px;
+}
+#searchButton{
+    margin-top:30px;
+}
+.nouveauQuestionnaire{
+    margin-bottom:20px;
+    justify-content:center;
+}
+.filterRowQuestion{
+    margin-bottom:10px;
+}
+.submit-go{
+    margin-top:-30px;
+}
+#leBody{
+    margin-top:15px;
+}
+#buttonsActionsChoix{
+    display: flex;
+}
+#libelleTabChoix{
+    margin-bottom:20px;
+    text-align:center;
+}
+.buttonActionChoix{
+    margin-left:9px;
+}
+
+.titreQuestionnaire {
+    color: brown;
+
+}
+.titrePage {
+    font-weight: bold;
+}
+.containerShowImage {
+    display: flex;
+    flex-wrap: wrap;
+}
+.containerShowImageDown {
+    display: flex;
+    flex-wrap: wrap;
+}
+.imageShow {
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+.imageMove {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    margin-left: 10px;
+
+}
+.buttonMoveImage {
+    width: auto;
+    height: auto;
+}
+.deleteImage {
+    /*text-align: center;*/
+    width: auto;
+}
+.imageShowBig {
+    width: 500px;
+}
+.ligneDescription {
+    background-color: #e7edfe;
+    border-radius: 20px;
+}
+textarea {
+    width : 1000px;
+}
+.uploadBlock {
+    margin-bottom: 20px;
+}
+.imageChoix {
+    width: 100px ;
+    border-radius: 10px;
+}
+.rendInvisible {
+    visibility: hidden;
+}
+
+.rendVisible {
+    visibility: visible;
+}
+.uploadFileChoice {
+    color: transparent;
+}
+.groupeChoix {
+    margin-bottom: 15px;
+}
+.formLogin {
+    text-align: center;
+}
+#intituleQuestionnaireStart {
+    text-align: center;
+    color: brown;
+    font-size: 50px;
+}
+#buttonStartQuestionnaire {
+    margin: auto;
+}
+.imgUser {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+.textUser {
+    height: auto;
+    background-color: #e7edfe;
+    border-radius: 10px;
+    font-size: 20px;
+}
+.imgUserChoix {
+    height: 100px;
+    border-radius: 10px;
+}
+.groupeChoixUser{
+    margin-bottom: 20px;
+    height: 130px;
+}
+.containerImgBigUser {
+    text-align: center;
+}
+#textNom, #textPrenom {
+    text-transform: uppercase;
+}
+#buttonAnswer {
+    margin: auto;
+}
+#blocReponse {
+    text-align: center;
+    border-radius: 10px;
+}
+.verifGoodAnswer {
+    background-color: #8af97a;
+    border-radius: 10px;
+}
+.verifBadAnswer {
+    background-color: red;
+    border-radius: 10px;
+}
+.checkBoxUtilisateur {
+    padding-top: 48px;
+    padding-left: 66px;
+}
+.iconeResultatAvecImage {
+    width: 100px;
+}
+.iconeResultatSansImage {
+    width: 50px;
+}
+    .bonneReponse {
+        background-color: #b3ffb0;
+        border-radius: 10px;
+    }
+.mauvaiseReponse {
+    background-color: #fda08e;
+    border-radius: 10px;
+}
+.containerChoixUser {
+    padding-top: 15px;
+    padding-bottom: 7px;
+}
+.deleteImageTest {
+    width: 30px;
+    margin-bottom: 5px;
+    background-color: #fda08e;
+    padding: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    cursor: hand;
+}
+.videoSize {
+    width: 1000px;
+
+}
+.finalImage {
+    width: auto;
+}
+.finalResultat {
+    text-align: center;
+}
+.messageErreur {
+    text-align: center;
+}
+.choixSansImage {
+    height: 60px;
+}
+.lolCat {
+    width: 800px;
+}
+.blocVideo {
+    text-align:center;
+}
+
+
+/*.buttonOnImage {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+.buttonOnImage img {
+    width: 100%;
+    height: auto;
+}
+
+.buttonOnImage .btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        background-color: #555;
+        color: white;
+        font-size: 16px;
+        padding: 12px 24px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+.buttonOnImage .btn:hover {
+        background-color: black;
+    }*/

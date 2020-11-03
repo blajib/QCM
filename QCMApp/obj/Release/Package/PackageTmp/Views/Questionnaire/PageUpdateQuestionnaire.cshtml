@@ -1,0 +1,47 @@
+﻿@model QCMApp.Questionnaires
+@{
+    ViewBag.Title = "PageUpdateQuestionnaire";
+}
+
+<h2>PageUpdateQuestionnaire</h2>
+
+
+
+
+<hr class="style1" />
+
+<hr class="style1" />
+<div class="row">
+    <div class="col-md-2">
+        <h2> </h2>
+        @Html.ActionLink("Nouvelle question", "Index", "Home", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="col-md-2">
+        <h2> </h2>
+        @Html.ActionLink("Nouvelle élément", "Index", "Home", null, new { @class = "btn btn-default" })
+    </div>
+    @using (Html.BeginForm("UpdateQuestionnaire", "Questionnaire", FormMethod.Post))
+    {
+        <div class="col-md-2">
+            <label for="intitule"> Intitule du questionnaire</label>
+            <input type="text" value="@Html.DisplayFor(model => model.intitule)" name="intitule" id="intitule" />
+        </div>
+        <div class="col-md-2">
+            <label for="note"> Note acceptable</label>
+            <input type="number" value="@Html.DisplayFor(model => model.note)" name="note" id="note" />
+        </div>
+        <div class="col-md-2">
+            <h2> </h2>
+            <input type="submit" value="Enregistrer" />
+        </div>
+        <input type="hidden" value="@Html.DisplayFor(model => model.Id)" name="id" id="id"/>
+    }
+<div class="col-md-1">
+    <h2> </h2>
+    <p>Nbr quest</p>
+</div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

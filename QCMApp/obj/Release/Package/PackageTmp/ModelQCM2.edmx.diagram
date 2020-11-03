@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="36200bad796f4adebe5fdc31ff934745" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="QCMAppBDDModel.Choixes" Width="1.5" PointX="5.25" PointY="3.5" />
+        <EntityTypeShape EntityType="QCMAppBDDModel.Elements" Width="1.5" PointX="3" PointY="2.75" />
+        <EntityTypeShape EntityType="QCMAppBDDModel.Questionnaires" Width="1.5" PointX="0.75" PointY="3.25" />
+        <EntityTypeShape EntityType="QCMAppBDDModel.Reponses" Width="1.5" PointX="8" PointY="7.375" />
+        <EntityTypeShape EntityType="QCMAppBDDModel.Site" Width="1.5" PointX="3" PointY="8.25" />
+        <EntityTypeShape EntityType="QCMAppBDDModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="1.125" />
+        <EntityTypeShape EntityType="QCMAppBDDModel.TypeElements" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QCMAppBDDModel.Utilisateurs" Width="1.5" PointX="5.75" PointY="7.75" />
+        <AssociationConnector Association="QCMAppBDDModel.FK_Choixes_Elements" />
+        <AssociationConnector Association="QCMAppBDDModel.FK_Elements_Questionnaires" />
+        <AssociationConnector Association="QCMAppBDDModel.FK_ElementTypeElement" />
+        <AssociationConnector Association="QCMAppBDDModel.FK_UtilisateurReponse" />
+        <AssociationConnector Association="QCMAppBDDModel.GroupeSiteQuestionnaire" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

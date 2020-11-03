@@ -1,0 +1,274 @@
+﻿@model QCMApp.Models.ViewModelChoixQuestion
+@{
+    ViewBag.Title = "PageCreateQuestion";
+
+}
+
+<h2>Création question</h2>
+@*@{
+    int count = 1;
+    if (Model.listeChoix != null)
+    {
+        count = Model.listeChoix.Count();
+    }
+}*@
+
+@using (Html.BeginForm("CreateQuestion", "Question", FormMethod.Post))
+{
+    <hr class="style1" />
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Intitulé de la question" name="intituleQuestion" id="intituleQuestion" required/>
+            @*<input type="hidden" id="idElement" name="idElement" value="@Model.element.Id" />*@
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-2">
+            @*<input type="submit" class="btn-primary form-control" value="Aperçu" name="apercu" id="apercu" />*@
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn-primary form-control" value="Enregister" />
+        </div>
+
+
+        <div class="col-md-2">
+            <input type="button" class="btn-primary form-control" value="Annuler" name="annuler" id="annuler" onclick="location.href='@Url.Action("PageCreateQuestionnaire", "Questionnaire", new { id = Model.idQuestionnaire })'" />
+        </div>
+        <input type="hidden" name="idQuestionnaire" value="@Model.idQuestionnaire" />
+
+
+    </div>
+    <hr class="style1" />
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <label for="texteQuestion">Question</label>
+            @*@if (Model.element.intitule != null)
+                {
+                    <textarea name="texteQuestion" class="form-control" rows="5" cols="400" id="textareaDescription">@Model.element.intitule</textarea>
+
+                }
+                else
+                {*@
+            <textarea name="texteQuestion" class="form-control" rows="5" cols="400" id="texteQuestion"></textarea>
+            @*}*@
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+}
+
+
+
+
+
+@*// mes lignes  jquerys pour les choix en asynchrone*@
+
+
+<!--<div class="row">-->
+@*@foreach (var choix in Model.listeChoix)
+    {
+        <div class="col-md-1">
+            <input type="checkbox" id="@choix.Id" />
+        </div>
+        <div class="col-md-10">
+            <input type="text" style="width:1000px" class="form-control" id="@choix.Id" placeholder="@choix.intitule">
+        </div>
+    }*@
+<!--</div>-->
+<!--<table>
+    <tr>
+        <th>
+            Statut
+        </th>
+        <th style="padding-left:60px">
+            Intitule de la réponse
+        </th>
+        <th>
+
+        </th>
+        <th>
+            Ajout média
+        </th>
+        <th>
+            Actions
+        </th>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td >
+            <input type="checkbox" class="form-control" id="statutChoix" name="statutChoix" />-->
+@*a chaque fois qu'un choix est créé il aura le N° d'ordre de création.
+    Si il est delete, les autres choix par la suite conitnuerons quand meme par
+    ordre de création. Vu que c'est par chaque élément il restera toujours unique*@
+<!--<input type="hidden" id="idElement + N° de fabrication du choix" name="" />
+            <input type="hidden" id="idElement" name="idElement" />
+        </td>
+        <td width="45%">
+          <textarea cols="1000" class="form-control" id="intituleChoix" name="intituleChoix"></textarea>
+        </td>
+        <td>
+
+        </td>
+        <td width="30%">
+            <input type="file" class="form-control" id="mediaChoix" name="mediaChoix"  />
+        </td>
+        <td id="buttonsActionsChoix" style="display:flex">
+            <input type="button" class="form-control" id="deleteChoix" name="deleteChoix" value="delete" />
+            <input type="button" class="form-control" id="saveChoix" name="saveChoix" value="save" />
+
+        </td>
+        <td>
+            <p>Si enregistré ou pas</p>
+        </td>
+    </tr>
+</table>-->
+@*<input type="text" id="compteur" value="@count" />
+    <input type="button" value="+" id="buttonPlus" />
+    <div class="row" id="libelleTabChoix">
+        <div class="col-md-2">
+            Statut
+        </div>
+        <div class="col-md-4">
+            Intitule de la reponse
+        </div>
+        <div class="col-md-2">
+            Ajout média
+        </div>
+        <div class="col-md-2">
+            Actions
+        </div>
+        <div class="col-md-2">
+            Save ?
+        </div>
+    </div>
+    <div id="containerChoix">
+        @if (Model.listeChoix != null)
+        {
+            foreach (var choix in Model.listeChoix)
+            {
+                using (Html.BeginForm("InsertChoix", "Choix", FormMethod.Post))
+                {
+
+                    <p>compteur : @count  </p>
+                    <div class="row" id="">
+                        <div class="col-md-2">
+                            <p>compteur : @count</p>
+                            <input type="checkbox" class="form-control" id="statutChoix_@count" name="statutChoix" />
+                            <input type="hidden" id="idChoix" value="@choix.Id" />
+                        </div>
+                        <div class="col-md-4">
+                            <textarea cols="1000" class="form-control" id="intituleChoix_@count" name="intituleChoix">@choix.intitule</textarea>
+
+                        </div>
+                        <div class="col-md-2">
+                            <input type="file" class="form-control" id="mediaChoix_@count" name="mediaChoix" />
+                        </div>
+                        <div class="col-md-2" id="buttonsActionsChoix">
+                            <input type="button" class="form-control btn btn-outline-primary" id="deleteChoix_@count" name="deleteChoix" value="delete" />
+                            <p></p>
+                            <input type="button" class="form-control btn btn-outline-primary" id="saveChoix_@count" name="saveChoix" value="save" />
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+
+                    </div>
+                    <br />
+
+
+                    count++;
+                }
+
+            }
+        }
+    </div>
+
+    @section Scripts {
+        <script type="text/javascript">
+            const t = document.createElement("div");
+
+
+
+            $(document).ready(function () {
+                $("#buttonPlus").click(function () {
+                    var compteurJs = $("#compteur").val();
+                    var o = `@using (Html.BeginForm("InsertChoix", "Choix", FormMethod.Post)){
+                                        <div class="row" id="">
+                                                <div class="col-md-2">
+                                                    <p>compteur :  </p>
+                                                    <input type="checkbox" class="form-control" id="statutChoix_${compteurJs}" name="statutChoix" />
+                                                       @if(Model.idChoix != 0)
+                                                       {
+                                                    <input type="hidden" id="idChoix" value="@Model.idChoix" />
+                                                       }
+                                                       else
+                                                       {
+                                                    <input type="hidden" id="idChoix" value="" />
+
+                                                       }
+                                                    <input type="hidden" id="idElement_${compteurJs}" value="@Model.element.Id"  name="idElement" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <textarea cols="1000" class="form-control" id="intituleChoix_${compteurJs}" name="intituleChoix"></textarea>
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="file" class="form-control" id="mediaChoix_${compteurJs}" name="mediaChoix" />
+                                                </div>
+                                                <div class="col-md-2" id="buttonsActionsChoix">
+                                                    <input type="button" class="form-control btn btn-outline-primary" id="deleteChoix_${compteurJs}" name="deleteChoix" value="delete" />
+                                                    <p></p>
+                                                    <input type="button" class="form-control btn btn-outline-primary saveChoix" id="saveChoix_${compteurJs}" name="saveChoix" value="save" onclick="fonctionSaveChoix(${compteurJs})" />
+                                                </div>
+                                                <div class="col-md-2">
+
+                                                </div>
+
+
+                                    </div>}
+                                    <br />`
+                    $("#containerChoix").append(o);
+
+                    compteurJs++;
+                    $("#compteur").val(compteurJs);
+
+                });
+
+            });
+                                function fonctionSaveChoix(compteur) {
+            var intitule = $("#intituleChoix_" + compteur).val();
+            var media = $("#mediaChoix_" + compteur).val();
+            var statut = $("#statutChoix_" + compteur).is(':checked');
+            var idElement = $("#idElement_" + compteur).val();
+            var idChoix = $("#idChoix").val();
+
+                            $.post({
+                                url: '@Url.Action("InsertChoix","Choix")',
+                                tpe: 'POST',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                    intituleChoix: intitule,
+                                    mediaChoix: media,
+                                    statutChoix: statut,
+                                    idElement: idElement,
+                                    idChoix: idChoix
+                                }),
+                                contentType: 'application/json; charset=utf-8',
+                                success: function (data) {
+                                    console.log(data)
+                                }
+                            });
+
+        };
+
+
+
+
+
+
+        </script>
+    }*@

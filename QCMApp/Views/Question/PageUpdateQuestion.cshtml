@@ -1,0 +1,594 @@
+﻿@using System.Configuration
+@model QCMApp.Models.ViewModelChoixQuestion
+@{
+    ViewBag.Title = "Update page";
+
+}
+
+
+<h2 class="titrePage">Création question</h2>
+@{
+    int countboucle = 0;
+    int count = 0;
+    var newFileName = "";
+    var imagePath = "";
+    var compteur = 0;
+    var compteurSave = 0;
+    //var path = ConfigurationManager.AppSettings["imagesDirectoryRelatif"];
+    string _CST_DIRECTORY_IMAGES = "~/Content/images/";
+    var path = ConfigurationManager.AppSettings["imagesDirectoryRelatif"];
+
+    var y = 0;
+
+    if (Model.listeImagesUp != null)
+    {
+        compteur = Model.listeImagesUp.Count();
+
+    }
+    if (Model.listeChoix != null)
+    {
+        count = Model.listeChoix.Count();
+        count--;
+    }
+}
+
+@*@using (Html.BeginForm("UpdateQuestion", "Question", FormMethod.Post))
+    {*@
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 messageErreur">
+        <div class="text-danger text-dangerJquery"></div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+<hr class="style1" />
+<div class="row">
+
+    <input type="hidden" name="idQuestionnaire" id="idQuestionnaire" value="@Model.element.questionnaire_id" />
+    <input type="hidden" name="idElement" id="idElement" value="@Model.element.Id" />
+    <input type="hidden" id="compteurSave" value="@compteurSave" />
+    <input type="hidden" id="compteur" name="compeur" value="@compteur" />
+    <input type="hidden" id="compteur" value="@count" />
+    @*<input type="hidden" id="tailleImage" value="imageShowBig" />*@
+    <div class="col-md-3">
+
+        <input type="text" class="form-control" value="@Model.element.intitule" name="intituleQuestion" id="intituleQuestion" required />
+
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-2">
+        @*<input type="submit" class="btn-primary form-control" value="Aperçu" name="apercu" id="apercu" />*@
+    </div>
+    <div class="col-md-2">
+        <input type="submit" class="btn-primary form-control" value="Enregister" onclick="fonctionUpdateQuestion()" />
+    </div>
+
+
+    <div class="col-md-2">
+        <input type="button" class="btn-primary form-control" value="Retour" name="retour" id="retour" onclick="fonctionVerifChoixSave(@Model.element.questionnaire_id)" @*onclick="location.href='@Url.Action("PageCreateQuestionnaire", "Questionnaire", new { id = Model.element.questionnaire_id })'"*@ />
+    </div>
+
+
+</div>
+
+<hr class="style1" />
+<div class="containerShowImage">
+
+    @if (Model.listeImagesUp != null)
+    {
+        if (Model.listeImagesUp.Count() == 1)
+        {
+            foreach (var image in Model.listeImagesUp)
+            {
+                <div class="blocImage_@image.Id">
+                    <a onclick="fonctionDeleteImage(@image.Id)"><input type="image" class="deleteImageTest" src="~/Content/asserts/icones/trashIcon.png" /></a>
+                    @*<button class="btn btn-danger deleteImage" onclick="fonctionDeleteImage(@image.Id)"></button>*@
+                    <div class="imageMove">
+                        @{ var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format); }
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                        <div class="buttonOnImage">
+                            <img class="imageShowBig" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                        </div>
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            foreach (var image in Model.listeImagesUp)
+            {
+                <div class="blocImage_@image.Id">
+                    <a onclick="fonctionDeleteImage(@image.Id)"><input type="image" class="deleteImageTest" src="~/Content/asserts/icones/trashIcon.png" /></a>
+                    @*<button class="btn btn-outline-danger deleteImage" onclick="fonctionDeleteImage(@image.Id)"></button>*@
+                    <div class="imageMove">
+                        @{ var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format); }
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                        <img class="imageShow" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                    </div>
+                </div>
+                y++;
+            }
+        }
+    }
+
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <div class="input-group uploadBlock">
+            <div class="input-group-prepend">
+                <button class="input-group-text" id="btn_upload">Upload</button>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input btn" id="imgupload" name="photo">
+                <label class="custom-file-label" for="imgupload">Choisir image</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label for="texteQuestion">Question</label>
+        <textarea name="texteQuestion" class="form-control" rows="5" cols="400" id="texteQuestion">@Model.element.texte</textarea>
+    </div>
+
+</div>
+<br />
+
+<div class="row">
+    <div class="col-md-1">
+        <input type="button" value="+" id="buttonPlusChoix" 
+               onclick="fonctionNouveauChoix()" class="form-control btn-primary"/>
+    </div>
+    <div class="col-md-11"></div>
+</div>
+<br />
+
+<div class="row" id="libelleTabChoix">
+    <div class="col-md-2">
+        Statut
+    </div>
+    <div class="col-md-4">
+        Intitule du choix
+    </div>
+    <div class="col-md-3">
+        Ajout média
+    </div>
+    <div class="col-md-3">
+        Actions
+    </div>
+</div>
+<div id="containerChoix">
+    @if (Model.listeChoix != null)
+    {
+        foreach (var choix in Model.listeChoix)
+        {
+
+            <div class="row groupeChoix" id="groupeChoix_@choix.Id">
+                <div class="col-md-2">
+
+                    @if (choix.statut == false)
+                    {
+                        <input type="checkbox" class="form-control" id="statutChoix_@choix.Id" name="statutChoix" onchange="fonctionShowSave(@choix.Id)" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" class="form-control showSave" id="statutChoix_@choix.Id" name="statutChoix" checked="checked" onchange="fonctionShowSave(@choix.Id)" />
+
+                    }
+                    <input type="hidden" id="idChoix_@choix.Id" value="@choix.Id" />
+
+                </div>
+                <div class="col-md-4">
+                    <textarea cols="1000" class="form-control showSave" onclick="fonctionShowSave(@choix.Id)" id="intituleChoix_@choix.Id" name="intituleChoix">@choix.intitule </textarea>
+
+                </div>
+                <div class="col-md-2" id="colonne_@choix.Id">
+
+                    @if (choix.imagePath != null)
+                    {
+                        <div id="blocImageChoix_@choix.Id">
+                            <a onclick="fonctionDeleteImageChoix(@choix.image_id, @choix.Id)"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png" /></a>
+
+                            @*<button id="buttonDeleteImgChoix_@choix.Id" class="btn btn-danger deleteImage" onclick="fonctionDeleteImageChoix(@choix.image_id, @choix.Id)"></button>*@
+                            <img id="choixImage_@choix.Id" src="@choix.imagePath" class="imageChoix" />
+                        </div>
+                    }
+
+                </div>
+                <div class="col-md-2">
+                    <input type="file" class="form-control uploadFileChoice" id="mediaChoixFile_@choix.Id" name="mediaChoix" />
+                    <button class="input-group-text" id="btn_upload_choix_@choix.Id" onclick="fonctionAddImageChoix(@choix.Id)">Upload</button>
+
+                </div>
+                <div class="col-md-2" id="buttonsActionsChoix">
+                    <input type="button" class="form-control btn btn-outline-primary buttonActionChoix" id="deleteChoix_@choix.Id" name="deleteChoix" value="delete" onclick="fonctionDeleteChoix(@choix.Id)" />
+                    <p></p>
+                    <input type="hidden" class="form-control btn btn-outline-primary buttonActionChoix" id="saveChoix_@choix.Id" name="updateChoix" value="save" onclick="fonctionUpdateChoix(@choix.Id)" />
+                </div>
+
+
+            </div>
+            @*<br />*@
+
+            countboucle++;
+
+
+        }
+    }
+</div>
+
+@section Scripts {
+    
+
+    <script type="text/javascript">
+
+        function fonctionNouveauChoix() {
+            var idElement = $("#idElement").val();
+
+            $.post({
+                url: '@Url.Action("InsertChoix", "Choix")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idElement: idElement
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    /**
+                     * data == idChoix en int || data == messageErreur en string
+                     */
+                    if (typeof data === "string") {
+                        $(".text-dangerJquery").append(data);
+                    } else {
+                        var o = `
+                             <div class="row groupeChoix" id="groupeChoix_${data}">
+                                                <div class="col-md-2">
+
+                                                    <input type="checkbox" class="form-control" id="statutChoix_${data}" name="statutChoix" onchange="fonctionShowSave(${data})" />
+
+
+                                                           <input type="hidden" id="idChoix_${data}" value="" />
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <textarea cols="1000" class="form-control" id="intituleChoix_${data}" name="intituleChoix" onclick="fonctionShowSave(${data})"></textarea>
+
+                                                </div>
+                                                <div class="col-md-2" id="colonne_${data}">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="file" class="form-control" id="mediaChoixFile_${data}" name="mediaChoix"/>
+                                                    <button class="input-group-text" id="btn_upload_choix_${data}" onclick="fonctionAddImageChoix(${data})">Upload</button>
+                                                </div>
+                                                <div class="col-md-2" id="buttonsActionsChoix">
+                                                    <input type="button" class="form-control btn btn-outline-primary buttonActionChoix" id="deleteChoix_${data}" name="deleteChoix" value="delete" onclick="fonctionDeleteChoix(${data})" />
+                                                    <p></p>
+                                                    <input type="hidden" class="form-control btn btn-outline-primary buttonActionChoix" id="saveChoix_${data}" name="saveChoix" value="save" onclick="fonctionUpdateChoix(${data})" />
+
+
+                                                </div>
+
+                                    </div>
+                                    `;
+
+                        $("#containerChoix").append(o);
+                    }
+
+                }
+            });
+        };
+
+        function fonctionUpdateChoix(idChoix) {
+            var intitule = $("#intituleChoix_" + idChoix).val();
+            var media = $("#mediaChoix_" + idChoix).val();
+            var statut = $("#statutChoix_" + idChoix).is(':checked');
+            var idElement = $("#idElement_" + idChoix).val();
+            var idChoix = idChoix;
+            var compteurSave = $("#compteurSave").val();
+
+
+            $.post({
+                url: '@Url.Action("UpdateChoix", "Choix")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    intituleChoix: intitule,
+                    mediaChoix: media,
+                    statutChoix: statut,
+                    idElement: idElement,
+                    idChoix: idChoix
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (typeof data === "string") {
+                        $(".text-dangerJquery").append(data);
+                    } else {
+                        $("#saveChoix_" + idChoix).attr("type", "hidden");
+                        compteurSave = compteurSave - 1;
+                        $("#compteurSave").val(compteurSave);
+                    }
+                }
+            });
+        };
+
+        function fonctionDeleteChoix(idChoix) {
+            $.post({
+                url: '@Url.Action("DeleteChoix", "Choix")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idChoix: idChoix
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (typeof data == "string") {
+                        $(".text-dangerJquery").append(data);
+                    } else {
+                        $("#groupeChoix_" + idChoix).remove();
+                    }
+                }
+            });
+        }
+
+
+        function fonctionShowSave(compteur) {
+            var compteurSave = $("#compteurSave").val();
+            if ($("#saveChoix_" + compteur).attr("type") === "hidden") {
+                compteurSave++;
+                $("#compteurSave").val(compteurSave);
+                $("#saveChoix_" + compteur).attr("type", "button");
+            }
+            $("#saveChoix_" + compteur).attr("type", "button");
+        }
+
+        function fonctionVerifChoixSave(idQuestionnaire) {
+            var compteurSave = $("#compteurSave").val();
+            if (compteurSave != 0) {
+                var r = confirm("Attention vous n'avez pas sauvegarder tous les choix. Voulez vous continuez ?");
+                if (r === true) {
+                    $.post({
+                        url: '@Url.Action("PageCreateQuestionnaireJquery", "Questionnaire")',
+                        tpe: 'POST',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            id: idQuestionnaire
+                        }),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(json) {
+                            if (json.isRedirect) {
+                                window.location.href = json.redirectUrl;
+                            }
+                        }
+                    });
+                }
+            } else {
+                $.post({
+                    url: '@Url.Action("PageCreateQuestionnaireJquery", "Questionnaire")',
+                    tpe: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        id: idQuestionnaire
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(json) {
+                        if (json.isRedirect) {
+                            window.location.href = json.redirectUrl;
+                        }
+                    }
+                });
+            }
+        }
+
+        $("#btn_upload").on("click",
+            function(e) {
+                e.preventDefault();
+
+                var file = $("#imgupload").get(0).files[0];
+                var formData = new FormData();
+                var formatFile = file.name.split('.').pop();
+                var idElement = $("#idElement").val();
+                var compteur = $("#compteur").val();
+                //je met l'Id de l'élément dans le nom du fichier. Il y a d'autres manières c'est sur mais je n'ai pas trouvé
+                formData.set("file", file, idElement + '.' + formatFile);
+
+                $.post({
+                    url: '@Url.Action("AddImageUp", "Media")',
+                    method: "post",
+                    data: formData,
+                    cache:
+                        false,
+                    contentType:
+                        false,
+                    processData:
+                        false,
+                    success: function(data) {
+                        if (compteur == 0) {
+                            var element = ` <div class="blocImage_${data.idImage}">
+                                                <a  onclick="fonctionDeleteImage(${data.idImage})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png"/></a>
+                                                <div class="imageMove">
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(${data.idImage})">-</button>
+                                                    <img class="imageShowBig" src="${data.imagePath}" id="image_${data.idImage}" alt="Alternate Text" />
+                                                    @*<p>${y}</p>*@
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(${data.idImage})">+</button>
+                                                </div>
+                                            </div>`;
+
+                            $(".containerShowImage").append(element);
+                            compteur++;
+                            $("#compteur").val(compteur);
+                        } else {
+                            var element = ` <div class="blocImage_${data.idImage}">
+                                                <a  onclick="fonctionDeleteImage(${data.idImage})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png"/></a>
+                                                <div class="imageMove">
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(${data.idImage})">-</button>
+                                                    <img class="imageShow" src="${data.imagePath}" id="image_${data.idImage}" alt="Alternate Text" />
+                                                    @*<p>${y}</p>*@
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(${data.idImage})">+</button>
+                                                </div>
+                                            </div>`;
+
+                            $(".containerShowImage").append(element);
+                            $(".containerShowImage").find(">:first-child").find("img").attr("class", "imageShow");
+                            compteur++;
+                            $("#compteur").val(compteur);
+                        }
+
+
+                    }
+
+
+                });
+
+            });
+
+        function fonctionDeleteImage(idImage) {
+            var compteur = parseInt($("#compteur").val(), 10);
+            $.post({
+                url: '@Url.Action("DeleteImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (typeof data === "string") {
+                        $(".text-dangerJquery").append(data);
+                    } else {
+                        compteur = compteur - 1;
+                        $("#compteurDown").val(compteur);
+                        if (compteur == 1) {
+                            $(".blocImage_" + idImage).remove();
+                            $(".containerShowImageDown").find(">:first-child").find("img").attr("class", "imageShowBig");
+
+
+                        } else {
+                            $(".blocImage_" + idImage).remove();
+                        }
+                    }
+                }
+            });
+        }
+
+        function fonctionDeleteImageChoix(idImage, idChoix) {
+            $.post({
+                url: '@Url.Action("DeleteImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    $("#blocImageChoix_" + idChoix).remove();
+                }
+            });
+        }
+
+        function fonctionBackwardImage(idImage) {
+            $.post({
+                url: '@Url.Action("BackwardImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    $(".blocImage_" + idImage).prev("div").before($(".blocImage_" + idImage));
+                }
+            });
+        }
+
+        function fonctionForwardImage(idImage) {
+            $.post({
+                url: '@Url.Action("ForwardImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    $(".blocImage_" + idImage).next("div").after($(".blocImage_" + idImage));
+                }
+            });
+
+
+        }
+
+        function fonctionUpdateQuestion() {
+            var intituleQuestion = $("#intituleQuestion").val();
+            var texteQuestion = $("#texteQuestion").val();
+            var idElement = $("#idElement").val();
+
+            $.post({
+                url: '@Url.Action("UpdateQuestionJquery", "Question")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    intituleQuestion: intituleQuestion,
+                    texteQuestion: texteQuestion,
+                    idElement: idElement
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(json) {
+                    if (json.isRedirect) {
+                        window.location.href = json.redirectUrl;
+                    }
+                }
+
+            });
+        }
+
+        function fonctionAddImageChoix(idChoix) {
+
+
+            var file = $("#mediaChoixFile_" + idChoix).get(0).files[0];
+            var formData = new FormData();
+            var formatFile = file.name.split('.').pop();
+            //je met l'Id de l'élément dans le nom du fichier. Il y a d'autres manières c'est sur mais je n'ai pas trouvé
+            formData.set("file", file, idChoix + '.' + formatFile);
+            formData.set("id", idChoix);
+
+            $.post({
+                url: '@Url.Action("AddImageChoix", "Media")',
+                method: "post",
+                data: formData,
+                cache:
+                    false,
+                contentType:
+                    false,
+                processData:
+                    false,
+                success: function(data) {
+                    $("#blocImageChoix_" + idChoix).remove();
+                    var element = ` <div id="blocImageChoix_${idChoix}">
+                                        <a  onclick="fonctionDeleteImageChoix(${data.idImage},${idChoix})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png"/></a>
+
+                                    <img id="choixImage_${idChoix}" src="${data.imagePath}" class="imageChoix" />
+                                    </div>`;
+                    $("#colonne_" + idChoix).append(element);
+
+                }
+            });
+        }
+
+
+    </script>
+}

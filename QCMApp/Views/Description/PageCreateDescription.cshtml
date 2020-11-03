@@ -1,0 +1,57 @@
+﻿@model QCMApp.Questionnaires
+
+@{
+    ViewBag.Title = "PageCreateDescription";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+
+<h2 class="titrePage">Création description</h2>
+<hr class="style1" />
+@using (Html.BeginForm("CreateDescription", "Description", FormMethod.Post))
+{
+
+    @*<input type="file" id="videoUpload" />*@
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Nom de la description" name="intitule" id="intitule" />
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-2">
+            @*<input type="submit" value="Aperçu" class="btn-primary form-control" name="apercu" id="apercu" />*@
+        </div>
+        <div class="col-md-2">
+            <input type="button" class="btn-primary form-control" value="Annuler" onclick="location.href='@Url.Action("PageCreateQuestionnaire", "Questionnaire", new { id = Model.Id })'" />
+
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn-primary form-control" value="Enregister" />
+        </div>
+    </div>
+
+    <hr class="style1" />
+    <div class="row">
+
+        <div class="col-md-12">
+            <textarea name="texte" class="form-control" rows="5" cols="400" id="textareaDescription"></textarea>
+        </div>
+    </div>
+
+    <hr class="style1" />
+
+    <input type="hidden" name="idQuestionnaire" class="btn-primary form-control" value="@Html.DisplayFor(model => model.Id)" />
+
+
+
+
+}

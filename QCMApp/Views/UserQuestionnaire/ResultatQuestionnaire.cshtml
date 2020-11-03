@@ -1,0 +1,51 @@
+﻿@using QCMApp.bll
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+@if (SessionManager.ResultatQuestionnaire == 1)
+{
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 finalResultat">
+            <input type="image" name="logoResultatFinal" value="" src="~/Content/asserts/icones/resultatValid.png" />
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 finalResultat">
+            <h3>Votre note est de :</h3>
+            <h3>@SessionManager.noteFinale / 20</h3>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 finalResultat">
+            <input type="image" name="logoResultatFinal" value="" src="~/Content/asserts/icones/resultatError.png" />
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 finalResultat ">
+            <h3>Votre note est de :</h3>
+            <h3>@SessionManager.noteFinale / 20</h3>
+            <br />
+            <p>Elle n'est pas suffisante</p>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+
+}

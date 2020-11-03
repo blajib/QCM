@@ -1,0 +1,599 @@
+﻿@using System.Configuration
+@using System.Web.UI.WebControls
+@using QCMApp.Tools
+@model QCMApp.Models.ViewModelQuestionnaireElements
+@{
+    ViewBag.Title = "PageUpdateDescription";
+    WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+    var compteur = 0;
+    var compteurDown = 0;
+    var y = 0;
+    //var path = ConfigurationManager.AppSettings["imagesDirectory"];
+    //var path = ConfigurationManager.AppSettings["imagesDirectoryRelatif"];
+    string _CST_DIRECTORY_IMAGES = "~/Content/images/";
+    var pathVideo = ConfigurationManager.AppSettings["videosDirectoryRelatif"];
+    if (Model.listeImagesUp != null)
+    {
+        compteur = Model.listeImagesUp.Count();
+
+    }
+    if (Model.listeImagesDown != null)
+    {
+        compteurDown = Model.listeImagesDown.Count();
+    }
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 messageErreur">
+        <div class="text-danger text-dangerJquery"></div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<h2 class="titrePage">Création description</h2>
+<hr class="style1" />
+<div class="row">
+    <div class="col-md-3">
+        <input type="text" class="form-control" value="@Model.intituleElement" name="intituleDescription" id="intituleDescription" />
+    </div>
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        @*<input type="submit" class="btn-primary form-control" value="Aperçu" name="apercu" id="apercu" />*@
+        <input type="button" class="btn-primary form-control" value="Annuler" onclick="location.href='@Url.Action("PageCreateQuestionnaire", "Questionnaire", new { id = Model.idQuestionnaire })'" />
+    </div>
+
+    <div class="col-md-2">
+        <input type="submit" class="btn-primary form-control" value="Enregister" onclick="fonctionSave()" />
+    </div>
+    <input type="hidden" name="idQuestionnaire" id="idQuestionnaire" value="@Model.idQuestionnaire" />
+    <input type="hidden" name="idElement" id="idElement" value="@Model.idElement" />
+    <input type="hidden" id="compteur" name="compeur" value="@compteur" />
+    <input type="hidden" id="compteurDown" name="compeur" value="@compteurDown" />
+    <input type="hidden" id="tailleImage" value="imageShowBig" />
+    @*<input type="hidden" name="idElement" value="@Model.idQuestionnaire" />*@
+</div>
+
+<hr class="style1" />
+<input type="hidden" name="first" id="first" value="1" />
+<div class="containerShowImage">
+
+    @if (Model.listeImagesUp != null && Model.video == null)
+    {
+        if (Model.listeImagesUp.Count() == 1)
+        {
+            foreach (var image in Model.listeImagesUp)
+            {
+                <div class="blocImage_@image.Id">
+                    <a onclick="fonctionDeleteImageUp(@image.Id)"><input type="image" class="deleteImageTest" src="~/Content/asserts/icones/trashIcon.png" /></a>
+                    @*<button class="btn btn-danger deleteImage" onclick="fonctionDeleteImageUp(@image.Id)"></button>*@
+                    <div class="imageMove">
+                        @{ var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format); }
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                        <div class="buttonOnImage">
+                            <img class="imageShowBig" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                        </div>
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            foreach (var image in Model.listeImagesUp)
+            {
+                <div class="blocImage_@image.Id">
+                    <a onclick="fonctionDeleteImageUp(@image.Id)"><input type="image" class="deleteImageTest" src="~/Content/asserts/icones/trashIcon.png" /></a>
+                    @*<button class="btn btn-outline-danger deleteImage" onclick="fonctionDeleteImageUp(@image.Id)"></button>*@
+                    <div class="imageMove">
+                        @{ var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format); }
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                        <img class="imageShow" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                    </div>
+                </div>
+                y++;
+            }
+        }
+
+
+    }
+    @if (Model.video != null)
+    {
+        <div class="blocVideo">
+            <a onclick="fonctionDeleteVideo(@Model.video.Id)"><input type="image" class="deleteImageTest" src="~/Content/asserts/icones/trashIcon.png" /></a>
+            @*<button class="btn btn-outline-danger deleteVideo" onclick="fonctionDeleteVideo(@Model.video.Id)"></button>*@
+            <div class="video">
+                @{ var superPath = Url.Content("~/" + pathVideo + Model.video.nom + "." + Model.video.format); }
+                <video class="videoSize" controls="controls">
+                    <source src="@superPath" type="video/@Model.video.format" />
+                    @*<source src="@superPath"  type="video/webm" />
+                        <source src="@superPath"  type="video/ogg" />*@
+                </video>
+                @*<video class="imageShowBig" src="@superPath" id="image_@Model.video.Id" alt="video présentation description" /><video />*@
+            </div>
+            <input type="hidden" name="idVideo" id="idVideo" value="Model.video.Id" />
+        </div>
+    }
+
+</div>
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        @*<div class="rendVisible" id="uploadImageUp">*@
+        <div class="@(Model.video == null ? "rendVisible" : "rendInvisible"   )" id="uploadImageUp">
+            <div class="input-group uploadBlock">
+                <div class="input-group-prepend">
+                    <button class="input-group-text" id="btn_upload">Upload</button>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input btn" id="imgupload" name="photo">
+                    <label class="custom-file-label" for="imgupload">Choisir image</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cil-md-4">
+        <div class="@(Model.listeImagesUp.Count() == 0 ? "rendVisible" : "rendInvisible"   )" id="uploadVideoUp">
+            <div class="input-group uploadVideoBlock">
+                <div class="input-group-prepend">
+                    <button class="input-group-text" id="btn_upload_video" onclick="AddVideo()">Upload</button>
+                </div>
+                <div class="custom-file">
+                    <input type="file" id="vidupload" class="custom-file-input btn" name="video">
+                    <label class="custom-file-label" for="vidupload">Choisir video</label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <textarea name="texte" id="texte" class="form-control" rows="5" cols="400" id="textareaDescription">@Model.texte</textarea>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <div class="input-group uploadBlock">
+            <div class="input-group-prepend">
+                <button class="input-group-text" id="btn_upload_down">Upload</button>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input btn" id="imguploadDown" name="photo">
+                <label class="custom-file-label" for="imgupload">Choisir image</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="containerShowImageDown">
+
+    @if (Model.listeImagesDown != null)
+    {
+        if (Model.listeImagesDown.Count() == 1)
+        {
+            foreach (var image in Model.listeImagesDown)
+            {
+                <div class="blocImage_@image.Id">
+                    <a onclick="fonctionDeleteImageUp(@image.Id)"><input type="image" class="deleteImageTest" src="~/Content/asserts/icones/trashIcon.png" /></a>
+                    @*<button class="btn btn-danger deleteImage" onclick="fonctionDeleteImage(@image.Id)"></button>*@
+                    <div class="imageMove">
+                        @{ var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format); }
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                        <div class="buttonOnImage">
+                            <img class="imageShowBig" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                        </div>
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                    </div>
+                </div>
+
+                @*<div class="blocImage_@image.Id">
+                        <button class="btn btn-danger deleteImage" onclick="fonctionDeleteImage(@image.Id)">D</button>
+                        <div class="imageMove">
+                            @{ var superPath = path + image.nom + "." + image.format; }
+                            <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                            <div class="buttonOnImage">
+                                <img class="imageShowBig" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                                <button class="btn btn-danger deleteImage" onclick="fonctionDeleteImage(@image.Id)">D</button>
+                            </div>
+                            <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                        </div>
+                    </div>*@
+            }
+        }
+        else
+        {
+            foreach (var image in Model.listeImagesDown)
+            {
+                <div class="blocImage_@image.Id">
+                    <a onclick="fonctionDeleteImageUp(@image.Id)"><input type="image" class="deleteImageTest" src="~/Content/asserts/icones/trashIcon.png" /></a>
+                    @*<button class="btn btn-outline-danger deleteImage" onclick="fonctionDeleteImage(@image.Id)"></button>*@
+                    <div class="imageMove">
+                        @{ var superPath = Url.Content(_CST_DIRECTORY_IMAGES + image.nom + "." + image.format); }
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                        <img class="imageShow" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                        <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                    </div>
+                </div>
+                y++;
+
+
+                @*<div class="blocImage_@image.Id">
+                        <div class="imageMove">
+                            @{ var superPath = path + image.nom + "." + image.format; }
+                            <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(@image.Id)">-</button>
+                            <div class="buttonOnImage">
+                                <img class="imageShow" src="@superPath" id="image_@image.Id" alt="image présentation description" /><img />
+                                <button class="btn btn-danger deleteImage" onclick="fonctionDeleteImage(@image.Id)">D</button>
+                            </div>
+                            <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(@image.Id)">+</button>
+                        </div>
+                    </div>
+                    y++;*@
+
+            }
+        }
+        @*<input type="hidden" id="y" value="@y" />*@
+    }
+
+</div>
+<br />
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        function fonctionSave() {
+            var intitule = $("#intituleDescription").val();
+            var idQuestionnaire = $("#idQuestionnaire").val();
+            var idElement = $("#idElement").val();
+            var texte = $("#texte").val();
+
+            $.post({
+                url: '@Url.Action("UpdateDescriptionAsyn", "Description")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    intituleElement: intitule,
+                    idQuestionnaire: idQuestionnaire,
+                    idElement: idElement,
+                    texte: texte
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (typeof data === "number") {
+                        location.href = '@Url.Action("PageCreateQuestionnaire", "Questionnaire", new {id = Model.idQuestionnaire})';
+
+                    } else {
+                        location.href = '@Url.Action("PageCreateQuestionnaire", "Questionnaire", new {id = Model.idQuestionnaire, erreur = ErrorList.UpdateDescriptionAsyn})';
+                    }
+                }
+            });
+        };
+
+        $("#btn_upload").on("click",
+            function(e) {
+                e.preventDefault();
+
+                var file = $("#imgupload").get(0).files[0];
+                var formData = new FormData();
+                var formatFile = file.name.split('.').pop();
+                var idElement = $("#idElement").val();
+                var y = $("#y").val();
+                var compteur = $("#compteur").val();
+                var tailleImage = parseInt($("#tailleImage").val(), 10);
+                //je met l'Id de l'élément dans le nom du fichier. Il y a d'autres manières c'est sur mais je n'ai pas trouvé
+                formData.set("file", file, idElement + "." + formatFile);
+
+                $.post({
+                    url: '@Url.Action("AddImageUp", "Media")',
+                    method: "post",
+                    data: formData,
+                    cache:
+                        false,
+                    contentType:
+                        false,
+                    processData:
+                        false,
+                    success: function(data) {
+                        if (typeof data === "string") {
+                            //Insérer le message d'erreur à l'ultilsateur
+                            $(".text-dangerJquery").append(data);
+                        } else {
+                            if (compteur == 0) {
+                                var element = ` <div class="blocImage_${data.idImage}">
+                                                <a onclick="fonctionDeleteImageUp(${data.idImage})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png" /></a>
+                                                <div class="imageMove">
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(${data.idImage})">-</button>
+                                                    <img class="imageShowBig" src="${data.imagePath}" id="image_${data.idImage}" alt="Alternate Text" />
+                                                    @*<p>${y}</p>*@
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(${data.idImage})">+</button>
+                                                </div>
+                                            </div>`;
+
+                                $(".containerShowImage").append(element);
+                                compteur++;
+                                $('#uploadVideoUp').attr("class", "rendInvisible");
+                                $("#compteur").val(compteur);
+                            } else {
+                                var element = ` <div class="blocImage_${data.idImage}">
+
+                                                <a onclick="fonctionDeleteImageUp(${data.idImage})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png" /></a>
+                                                <div class="imageMove">
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(${data.idImage})">-</button>
+                                                    <img class="imageShow" src="${data.imagePath}" id="image_${data.idImage}" alt="Alternate Text" />
+                                                    @*<p>${y}</p>*@
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(${data.idImage})">+</button>
+                                                </div>
+                                            </div>`;
+
+                                $(".containerShowImage").append(element);
+                                $(".containerShowImage").find(">:first-child").find("img").attr("class", "imageShow");
+                                compteur++;
+                                $('#uploadVideoUp').attr("class", "rendInvisible");
+                                $("#compteur").val(compteur);
+                            }
+                        }
+
+
+                    }
+
+
+                });
+
+            });
+
+        function fonctionDeleteImageUp(idImage) {
+            //var compteur = parseInt($("#compteur").val(), 10);
+            var compteur = $("#compteur").val();
+            $.post({
+                url: '@Url.Action("DeleteImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    compteur = compteur - 1;
+                    $("#compteur").val(compteur);
+                    if (compteur == 1) {
+                        $(".blocImage_" + idImage).remove();
+                        $(".containerShowImage").find(">:first-child").find("img").attr("class", "imageShowBig");
+
+
+                    } else {
+                        $(".blocImage_" + idImage).remove();
+                    }
+                    if (compteur == 0) {
+                        $("#uploadVideoUp").attr("class", "rendVisible");
+                    }
+                    //$("#tailleImage").val("imageShowBig");
+                }
+            });
+        }
+
+        $("#btn_upload_down").on("click",
+            function(e) {
+                e.preventDefault();
+
+                var file = $("#imguploadDown").get(0).files[0];
+                var formData = new FormData();
+                var formatFile = file.name.split('.').pop();
+                var idElement = $("#idElement").val();
+                var compteur = $("#compteurDown").val();
+                var y = $("#y").val();
+                var tailleImage = parseInt($("#tailleImage").val(), 10);
+                //je met l'Id de l'élément dans le nom du fichier. Il y a d'autres manières c'est sur mais je n'ai pas trouvé
+                formData.set("file", file, idElement + "." + formatFile);
+
+                $.post({
+                    url: '@Url.Action("AddImageDown", "Media")',
+                    method: "post",
+                    data: formData,
+                    cache:
+                        false,
+                    contentType:
+                        false,
+                    processData:
+                        false,
+                    success: function(data) {
+                        if (typeof data === "string") {
+                            //Insérer le message d'erreur à l'ultilsateur
+                            $(".text-dangerJquery").append(data);
+                        } else {
+                            if (compteur == 0) {
+                                var element = ` <div class="blocImage_${data.idImage}">
+                                                <a onclick="fonctionDeleteImageUp(${data.idImage})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png" /></a>
+                                                <div class="imageMove">
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(${data.idImage})">-</button>
+                                                    <img class="imageShowBig" src="${data.imagePath}" id="image_${data.idImage}" alt="Alternate Text" />
+                                                    @*<p>${y}</p>*@
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(${data.idImage})">+</button>
+                                                </div>
+                                            </div>`;
+
+                                $(".containerShowImageDown").append(element);
+                                compteur++;
+                                $("#compteurDown").val(compteur);
+                            } else {
+                                var element = ` <div class="blocImage_${data.idImage}">
+                                                <a onclick="fonctionDeleteImageUp(${data.idImage})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png" /></a>
+                                                <div class="imageMove">
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionBackwardImage(${data.idImage})">-</button>
+                                                    <img class="imageShow" src="${data.imagePath}" id="image_${data.idImage}" alt="Alternate Text" />
+                                                    @*<p>${y}</p>*@
+                                                    <button id="backwardImage" class="form-control buttonMoveImage" onclick="fonctionForwardImage(${data.idImage})">+</button>
+                                                </div>
+                                            </div>`;
+
+                                $(".containerShowImageDown").append(element);
+                                $(".containerShowImageDown").find(">:first-child").find("img").attr("class", "imageShow");
+                                compteur++;
+                                $("#compteurDown").val(compteur);
+                            }
+                        }
+
+
+                    }
+
+
+                });
+
+            });
+
+        function fonctionDeleteImage(idImage) {
+            var compteur = parseInt($("#compteurDown").val(), 10);
+            $.post({
+                url: '@Url.Action("DeleteImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (typeof data === "string") {
+                        $(".text-dangerJquery").append(data);
+                    } else {
+                        compteur = compteur - 1;
+                        $("#compteurDown").val(compteur);
+                        if (compteur == 1) {
+                            $(".blocImage_" + idImage).remove();
+                            $(".containerShowImageDown").find(">:first-child").find("img").attr("class", "imageShowBig");
+
+
+                        } else {
+                            $(".blocImage_" + idImage).remove();
+                        }
+                    }
+
+                    //$("#tailleImage").val("imageShowBig");
+                }
+            });
+        }
+
+        function fonctionBackwardImage(idImage) {
+            $.post({
+                url: '@Url.Action("BackwardImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    $(".blocImage_" + idImage).prev("div").before($(".blocImage_" + idImage));
+                }
+            });
+        }
+
+        function fonctionForwardImage(idImage) {
+            $.post({
+                url: '@Url.Action("ForwardImage", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idImage: idImage
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    $(".blocImage_" + idImage).next("div").after($(".blocImage_" + idImage));
+                }
+            });
+
+
+        }
+
+        function fonctionChangeTailleImage() {
+            $("#tailleImage").val("imageShow");
+        }
+
+        function AddVideo(file) {
+            var file = $("#vidupload").get(0).files[0];
+            var formData = new FormData();
+            var formatFile = file.name.split('.').pop();
+            var idElement = $("#idElement").val();
+            //je met l'Id de l'élément dans le nom du fichier. Il y a d'autres manières c'est sur mais je n'ai pas trouvé
+            formData.set("file", file, idElement + "." + formatFile);
+
+            $.post({
+                url: '@Url.Action("AddVideo", "Media")',
+                method: "post",
+                data: formData,
+                cache:
+                    false,
+                contentType:
+                    false,
+                processData:
+                    false,
+                success: function(data) {
+                    if (typeof data === "string") {
+                        $(".text-dangerJquery").append(data);
+                    } else {
+                        $("#uploadImageUp").attr("class", "rendInvisible");
+                        var element = `    <div class="blocVideo">
+                                    <a onclick="fonctionDeleteVideo(${data.idVideo})"><input type="image" class="deleteImageTest" src="/Content/asserts/icones/trashIcon.png" /></a>
+                                <div class="video">
+                                    <video controls="controls">
+                                        <source src="${data.videoPath}" type="video/${data.FormatVideo}" />
+                                        @*<source src="@superPath"  type="video/webm" />
+                                        <source src="@superPath"  type="video/ogg" />*@
+                                    </video>
+                                    @*<video class="imageShowBig" src="@superPath" id="image_@Model.video.Id" alt="video présentation description" /><video />*@
+                                </div>
+                                <input type="hidden" name="idVideo" id="idVideo" value="Model.video.Id" />
+                            </div>`;
+                        $(".containerShowImage").append(element);
+                    }
+
+                }
+            });
+        }
+
+        function fonctionDeleteVideo(idVideo) {
+            $.post({
+                url: '@Url.Action("DeleteVideo", "Media")',
+                tpe: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idVideo: idVideo
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (date == 1) {
+                        $(".blocVideo").remove();
+                        $("#uploadImageUp").attr("class", "rendVisible");
+
+                    } else {
+                        $(".text-dangerJquery").append(data);
+                    }
+                }
+            });
+        }
+
+    </script>
+
+}
+

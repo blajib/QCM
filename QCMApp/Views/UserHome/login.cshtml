@@ -1,0 +1,181 @@
+﻿@using QCMApp.bll
+
+
+@{
+    ViewBag.Title = "PageCreateIntituleQuestionnaire";
+}
+
+@{
+    var sites = SiteManager.SelectAllSite();
+
+}
+
+@if (SessionManager.sessionStart != 1)
+{
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger"></div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <h2 class="titrePage">Login</h2>
+
+
+    <hr />
+    <form>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="textNom" placeholder="Nom" required />
+                <input type="text" class="form-control" id="textPrenom" placeholder="Prénom" required />
+
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 formLogin">
+                <select id="colonneNomSite" class="form-control">
+                    @foreach (var site in sites)
+                    {
+                        <option id="site_@site.Id" value="@site.Id" onclick="fonctionQuestionnairesParSite(@site.Id)">@site.nom</option>
+                    }
+                </select>
+
+
+            </div>
+            <div class="col-md-4"></div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 formLogin" id="colonneQuestionnaires">
+                <select class="form-control" id="questionnairesParSite">
+                </select>
+            </div>
+            <div class="col-md-4"></div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 formLogin">
+                <input class="form-control btn-primary" type="button" value="Go" onclick="fonctionGoToQuestionnaire()" />
+            </div>
+            <div class="col-md-4"></div>
+
+        </div>
+    </form>
+}
+else if (SessionManager.sessionStart == 1 && SessionManager.sessionFinish == 0)
+{
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            @*<h2>Questionnaire :</h2>*@
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md">
+            <h3 id="intituleQuestionnaireStart">@SessionManager.questionnaire.intitule</h3>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" id="continuerQuestionnaire">
+            <input id="buttonContinuerQuestionnaire" type="button" value="Continuer questionnaire" class="form-control btn-primary" onclick="location.href = '@Url.Action("RetourElementEnCours", "UserQuestionnaire")'" />
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}
+else if (SessionManager.sessionFinish == 1)
+{
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h2>Session terminée</h2>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}
+@section Scripts {
+    <script type="text/javascript">
+
+        function fonctionQuestionnairesParSite(idSite) {
+            $.post({
+                url: '@Url.Action("ListQuestionnairesActifBySite", "Questionnaire")',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idSite: idSite
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(result) {
+                    if (typeof result === "string") {
+                        $(".text-danger").append(result);
+                    } else {
+                        var r = result;
+                        $("#questionnairesParSite").html("");
+                        result.forEach(questionnaire => {
+                            element = `<option id="questionnaire_${questionnaire.ID}" value="${questionnaire.ID}">${questionnaire.intitule}</option>`;
+                            $("#questionnairesParSite").append(element);
+                        });
+                    }
+
+                }
+            });
+        }
+
+        function fonctionGoToQuestionnaire() {
+            var idQuestionnaire = $("#questionnairesParSite").val();
+            var nom = $("#textNom").val();
+            var prenom = $("#textPrenom").val();
+            if (prenom.trim() != "" && nom.trim() != "" && prenom != null && nom != null) {
+                $.post({
+                    url: '@Url.Action("IndexJquery", "UserQuestionnaire")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        idQuestionnaire: idQuestionnaire,
+                        nom: nom,
+                        prenom: prenom
+
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(json) {
+                        if (typeof json === "string") {
+                            $(".text-danger").append(json);
+                        }else if (json.isRedirect) {
+                            window.location.href = json.redirectUrl;
+                        }
+
+
+                    }
+                });
+            } else {
+                alert("Veuillez remplir les champs nom et prénom");
+            }
+        }
+        //function forceInputUppercase(e)
+        //{
+        //    var start = e.target.selectionStart;
+        //    var end = e.target.selectionEnd;
+        //    e.target.value = e.target.value.toUpperCase();
+        //    e.target.setSelectionRange(start, end);
+        //}
+
+        //$("#textNom").addEventListener("keyup", forceInputUppercase, false);
+
+
+    </script>
+}

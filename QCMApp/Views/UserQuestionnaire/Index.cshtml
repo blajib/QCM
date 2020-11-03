@@ -1,0 +1,125 @@
+﻿@using QCMApp.bll
+
+
+@{
+    ViewBag.Title = "PageIndexUtilisateurQuestionnaire";
+}
+
+@{
+    var sites = SiteManager.SelectAllSite();
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+@*<h2 class="titrePage">Index</h2>*@
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        @*<h2>Questionnaire :</h2>*@
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md">
+        <h3 id="intituleQuestionnaireStart">@SessionManager.questionnaire.intitule</h3>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<br />
+@if (SessionManager.sessionStart != 1)
+{
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" id="buttonStartQuestionnaire">
+            @*<input id="buttonStartQuestionnaire" type="button" value="Commencer" class="form-control btn-primary" onclick="fonctionNext(@SessionManager.questionnaire.Id)"  />*@
+            <input id="buttonStartQuestionnaire" type="button" value="Commencer" class="form-control btn-primary" onclick="location.href = '@Url.Action("CommencerQuestionnaire", "UserQuestionnaire")'" />
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}
+else if (SessionManager.sessionStart == 1)
+{
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" id="continuerQuestionnaire">
+            @*<input id="buttonContinuerQuestionnaire" type="button" value="Continnuer le questionnaire" class="form-control btn-primary" onclick="fonctionNext(@SessionManager.questionnaire.Id)" />*@
+            <input id="buttonContinuerQuestionnaire" type="button" value="Continnuer le questionnaire" class="form-control btn-primary" onclick="location.href = '@Url.Action("RetourElementEnCours", "UserQuestionnaire")'" />
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}
+else if (SessionManager.sessionFinish == 1)
+{
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h2>Session terminée</h2>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}
+@section Scripts {
+    <script type="text/javascript">
+        //Un peu de fun en JS. Les redirectToAction sont beaucoup plus pratiques...
+
+        @*function fonctionNext(idQuestionnaire) {
+            $.post({
+                url: '@Url.Action("CheckNextElement", "UserQuestionnaire")',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({
+                    idQuestionnaire: idQuestionnaire
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    if (data == 1) {
+                        $.post({
+                            url: '@Url.Action("SuiteDescriptionJquery", "UserQuestionnaire")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                idQuestionnaire: idQuestionnaire
+
+                            }),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (json) {
+                                if (json.isRedirect) {
+                                    window.location.href = json.redirectUrl;
+                                }
+                            }
+                        });
+                    } else {
+                        $.post({
+                            url: '@Url.Action("SuiteQuestionJquery", "UserQuestionnaire")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                idQuestionnaire: idQuestionnaire
+
+                            }),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (json) {
+                                if (json.isRedirect) {
+                                    window.location.href = json.redirectUrl;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }*@
+
+
+    </script>
+}
+

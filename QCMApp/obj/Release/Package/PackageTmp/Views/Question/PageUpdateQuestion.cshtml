@@ -1,0 +1,245 @@
+﻿@model QCMApp.Models.ViewModelChoixQuestion
+@{
+    ViewBag.Title = "Update page";
+
+}
+
+<h2>Création question</h2>
+@{
+    int countboucle = 0;
+    int count = 0;
+    if (Model.listeChoix != null)
+    {
+        count = Model.listeChoix.Count();
+        count--;
+    }
+}
+
+@using (Html.BeginForm("UpdateQuestion", "Question", FormMethod.Post))
+{
+    <hr class="style1" />
+    <div class="row">
+
+        <input type="hidden" name="idQuestionnaire" value="@Model.element.questionnaire_id" />
+        <input type="hidden" name="idElement" value="@Model.element.Id" />
+        <div class="col-md-3">
+
+            <input type="text" class="form-control" value="@Model.element.intitule" name="intituleQuestion" id="intituleQuestion" required />
+            
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-2">
+            @*<input type="submit" class="btn-primary form-control" value="Aperçu" name="apercu" id="apercu" />*@
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn-primary form-control" value="Enregister" />
+        </div>
+
+
+        <div class="col-md-2">
+            <input type="button" class="btn-primary form-control" value="Retour" name="retour" id="retour" onclick="location.href='@Url.Action("PageCreateQuestionnaire", "Questionnaire", new { id = Model.element.questionnaire_id })'" />
+        </div>
+
+
+    </div>
+    <hr class="style1" />
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <label for="texteQuestion">Question</label>
+                <textarea name="texteQuestion" class="form-control" rows="5" cols="400" id="textareaDescription">@Model.element.texte</textarea>
+
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+}
+<br/>
+<input type="hidden" id="compteur" value="@count" />
+<div class="row">
+    <div class="col-md-1">
+        <input type="button" value="+" id="buttonPlusChoix" class="form-control btn-primary" />
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-11"></div>
+    </div>
+</div>
+
+<br/>
+<div class="row" id="libelleTabChoix">
+    <div class="col-md-2">
+        Statut
+    </div>
+    <div class="col-md-4">
+        Intitule de la reponse
+    </div>
+    <div class="col-md-3">
+        Ajout média
+    </div>
+    <div class="col-md-3">
+        Actions
+    </div>
+</div>
+<div id="containerChoix">
+    @if (Model.listeChoix != null)
+    {
+        foreach (var choix in Model.listeChoix)
+        {
+            using (Html.BeginForm("InsertChoix", "Choix", FormMethod.Post))
+            {
+                //if (Model.listeChoix != null)
+                //{
+                //    foreach (var choix in Model.listeChoix)
+                //    {
+                <div class="row" id="groupeChoix_@countboucle">
+                    <div class="col-md-2">
+                        @*<p>compteur : @countboucle</p>*@
+                        @if(choix.statut == false) { 
+                        <input type="checkbox" class="form-control" id="statutChoix_@countboucle" name="statutChoix" />
+                        }
+                        else
+                        {
+                        <input type="checkbox" class="form-control" id="statutChoix_@countboucle" name="statutChoix" checked="checked" />
+
+                        }
+                        <input type="hidden" id="idChoix_@countboucle" value="@choix.Id" />
+                        @*<input type="hidden" id="idElement"  name="idElement" />*@
+                    </div>
+                    <div class="col-md-4">
+                        <textarea cols="1000" class="form-control" id="intituleChoix_@countboucle" name="intituleChoix">@choix.intitule</textarea>
+
+                    </div>
+                    <div class="col-md-3">
+                        <input type="file" class="form-control" id="mediaChoix_@countboucle" name="mediaChoix" />
+                    </div>
+                    <div class="col-md-3" id="buttonsActionsChoix">
+                        <input type="button" class="form-control btn btn-outline-primary buttonActionChoix" id="deleteChoix_@countboucle" name="deleteChoix" value="delete" onclick="fonctionDeleteChoix(@countboucle)" />
+                        <p></p>
+                        <input type="button" class="form-control btn btn-outline-primary buttonActionChoix" id="saveChoix_@countboucle" name="saveChoix" value="save" onclick="fonctionSaveChoix(@countboucle)" />
+                    </div>
+
+
+                </div>
+                <br />
+
+
+                countboucle++;
+            }
+
+        }
+    }
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+
+
+
+            $(document).ready(function () {
+                $("#buttonPlusChoix").click(function () {
+                    var compteurJs = $("#compteur").val();
+                    compteurJs++;
+                    var o = `@using (Html.BeginForm("InsertChoix", "Choix", FormMethod.Post)){
+                                        <div class="row" id="groupeChoix_${compteurJs}">
+                                                <div class="col-md-2">
+                                                    @*<p>compteur :${compteurJs}  </p>*@
+                                                    <input type="checkbox" class="form-control" id="statutChoix_${compteurJs}" name="statutChoix" />
+                                                       @if(Model.idChoix != 0)
+                                                       {
+                                                    <input type="hidden" id="idChoix" value="@Model.idChoix" />
+                                                       }
+                                                       else
+                                                       {
+                                                    <input type="hidden" id="idChoix_${compteurJs}" value="" />
+
+                                                       }
+                                                    <input type="hidden" id="idElement_${compteurJs}" value="@Model.element.Id"  name="idElement" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <textarea cols="1000" class="form-control" id="intituleChoix_${compteurJs}" name="intituleChoix"></textarea>
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="file" class="form-control" id="mediaChoix_${compteurJs}" name="mediaChoix" />
+                                                </div>
+                                                <div class="col-md-3" id="buttonsActionsChoix">
+                                                    <input type="button" class="form-control btn btn-outline-primary buttonActionChoix" id="deleteChoix_${compteurJs}" name="deleteChoix" value="delete" onclick="fonctionDeleteChoix(${compteurJs})" />
+                                                    <p></p>
+                                                    <input type="button" class="form-control btn btn-outline-primary buttonActionChoix" id="saveChoix_${compteurJs}" name="saveChoix" value="save" onclick="fonctionSaveChoix(${compteurJs})" />
+
+
+                                                </div>
+
+
+                                    </div>}
+                                    <br />`
+
+                    $("#containerChoix").append(o);
+                    $("#compteur").val(compteurJs);
+
+                });
+
+            });
+                                function fonctionSaveChoix(compteur) {
+            var intitule = $("#intituleChoix_" + compteur).val();
+            var media = $("#mediaChoix_" + compteur).val();
+            var statut = $("#statutChoix_" + compteur).is(':checked');
+            var idElement = $("#idElement_" + compteur).val();
+            var idChoix = $("#idChoix_" + compteur).val();
+
+                            $.post({
+                                url: '@Url.Action("InsertChoix","Choix")',
+                                tpe: 'POST',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                    intituleChoix: intitule,
+                                    mediaChoix: media,
+                                    statutChoix: statut,
+                                    idElement: idElement,
+                                    idChoix: idChoix
+                                }),
+                                contentType: 'application/json; charset=utf-8',
+                                success: function (data) {
+                                    $("#idChoix_" + compteur).val(data);
+
+                                }
+                            });
+
+        };
+        function fonctionDeleteChoix(compteur) {
+            var idChoix = $("#idChoix_" + compteur).val();
+            if (idChoix == 0) {
+                $("#groupeChoix_" + compteur).remove();
+            } else {
+                        $.post({
+                                url: '@Url.Action("DeleteChoix", "Choix")',
+                                tpe: 'POST',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                    idChoix: idChoix
+                                }),
+                                contentType: 'application/json; charset=utf-8',
+                                success: function (data) {
+                                    $("#idChoix_" + compteur)
+                                    $("#groupeChoix_" + compteur).remove();
+                                }
+                            });
+            }
+
+
+
+        }
+
+
+
+
+
+
+    </script>
+}

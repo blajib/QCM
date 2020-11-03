@@ -1,0 +1,52 @@
+﻿@model QCMApp.Models.ViewModelChoixQuestion
+@{
+    ViewBag.Title = "PageCreateQuestion";
+
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+<h2 class="titrePage">Création question</h2>
+
+
+@using (Html.BeginForm("CreateQuestion", "Question", FormMethod.Post))
+{
+    <hr class="style1" />
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Intitulé de la question" name="intituleQuestion" id="intituleQuestion" required />
+            @*<input type="hidden" id="idElement" name="idElement" value="@Model.element.Id" />*@
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-2">
+            @*<input type="submit" class="btn-primary form-control" value="Aperçu" name="apercu" id="apercu" />*@
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn-primary form-control" value="Enregister" />
+        </div>
+
+
+        <div class="col-md-2">
+            <input type="button" class="btn-primary form-control" value="Annuler" name="annuler" id="annuler" onclick="location.href='@Url.Action("PageCreateQuestionnaire", "Questionnaire", new { id = Model.idQuestionnaire })'" />
+        </div>
+        <input type="hidden" name="idQuestionnaire" value="@Model.idQuestionnaire" />
+
+
+    </div>
+    <hr class="style1" />
+    <div class="row">
+        <div class="col-md-12">
+            <textarea name="texteQuestion" class="form-control" rows="5" cols="400" id="texteQuestion"></textarea>
+        </div>
+    </div>
+}
+
+

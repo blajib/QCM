@@ -1,0 +1,55 @@
+﻿@model QCMApp.Questionnaires
+
+@{
+    ViewBag.Title = "PageCreateIntituleQuestionnaire";
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 messageErreur">
+            <div class="text-danger">@ViewBag.Error</div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+}
+
+<h2 class="titrePage">Intitulé questionnaire</h2>
+
+
+<h4>Questionnaires</h4>
+<hr />
+@using (Html.BeginForm("CreateIntituleQuestionnaire", "Questionnaire", FormMethod.Post))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Intitulé du questionnaire" name="intitule" id="intituleCreateIntitule" required />
+                    <input type="submit" id="saveIntitule" name="saveIntitule" value="Enregistrer l'intitulé" class="btn-primary form-control" />
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @*<script type="text/javascript">
+        $(document).ready(function() {
+            $("#saveIntitule").click(function () {
+                alert("Vous allez pouvoir commencer à ajouter les éléments dans le questionnaire");
+
+                });
+
+
+            }
+        );*@
+
+    @*</script>*@
+}
+

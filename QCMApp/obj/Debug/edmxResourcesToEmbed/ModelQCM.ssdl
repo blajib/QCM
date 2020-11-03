@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QCMAppBDDModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="QCMAppBDDModelStoreContainer">
+    <EntitySet Name="Choixes" EntityType="QCMAppBDDModel.Store.Choixes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Elements" EntityType="QCMAppBDDModel.Store.Elements" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ListeQuestions" EntityType="QCMAppBDDModel.Store.ListeQuestions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Questionnaires" EntityType="QCMAppBDDModel.Store.Questionnaires" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reponses" EntityType="QCMAppBDDModel.Store.Reponses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypeElements" EntityType="QCMAppBDDModel.Store.TypeElements" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Utilisateurs" EntityType="QCMAppBDDModel.Store.Utilisateurs" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UtilisateurReponse" Association="QCMAppBDDModel.Store.UtilisateurReponse">
+      <End Role="Utilisateur" EntitySet="Utilisateurs" />
+      <End Role="Reponse" EntitySet="Reponses" />
+    </AssociationSet>
+    <AssociationSet Name="QuestionnaireListeQuestion" Association="QCMAppBDDModel.Store.QuestionnaireListeQuestion">
+      <End Role="Questionnaire" EntitySet="Questionnaires" />
+      <End Role="ListeQuestion" EntitySet="ListeQuestions" />
+    </AssociationSet>
+    <AssociationSet Name="ElementListeQuestion" Association="QCMAppBDDModel.Store.ElementListeQuestion">
+      <End Role="Element" EntitySet="Elements" />
+      <End Role="ListeQuestion" EntitySet="ListeQuestions" />
+    </AssociationSet>
+    <AssociationSet Name="ElementTypeElement" Association="QCMAppBDDModel.Store.ElementTypeElement">
+      <End Role="Element" EntitySet="Elements" />
+      <End Role="TypeElement" EntitySet="TypeElements" />
+    </AssociationSet>
+    <AssociationSet Name="ChoixElement" Association="QCMAppBDDModel.Store.ChoixElement">
+      <End Role="Choix" EntitySet="Choixes" />
+      <End Role="Element" EntitySet="Elements" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Choixes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="intitule" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="statut" Type="bit" Nullable="false" />
+    <Property Name="media" Type="varchar" Nullable="true" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="Elements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="intitule" Type="varchar(max)" Nullable="true" />
+    <Property Name="reponses" Type="varchar" Nullable="false" MaxLength="150" />
+    <Property Name="media" Type="varchar" Nullable="true" MaxLength="300" />
+    <Property Name="couleur" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="doc" Type="varchar(max)" Nullable="false" />
+    <Property Name="ChoixId" Type="int" Nullable="false" />
+    <Property Name="ListeQuestion_Id" Type="int" Nullable="false" />
+    <Property Name="TypeElement_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ListeQuestions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="nom" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Questionnaires">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="intitule" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="couleur" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="ListeQuestion_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reponses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="idQuestionnaire" Type="int" Nullable="false" />
+    <Property Name="intituleQuestionnaire" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="idElement" Type="int" Nullable="false" />
+    <Property Name="intituleElement" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="idChoix" Type="int" Nullable="false" />
+    <Property Name="intituleChoix" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="statut" Type="bit" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="UtilisateurId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypeElements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="nom" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Utilisateurs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="nom" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="prenom" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="note" Type="float" Nullable="true" />
+    <Property Name="validation" Type="bigint" Nullable="true" />
+    <Property Name="role" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="UtilisateurReponse">
+    <End Role="Utilisateur" Type="QCMAppBDDModel.Store.Utilisateurs" Multiplicity="1" />
+    <End Role="Reponse" Type="QCMAppBDDModel.Store.Reponses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateur">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reponse">
+        <PropertyRef Name="UtilisateurId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QuestionnaireListeQuestion">
+    <End Role="Questionnaire" Type="QCMAppBDDModel.Store.Questionnaires" Multiplicity="*" />
+    <End Role="ListeQuestion" Type="QCMAppBDDModel.Store.ListeQuestions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ListeQuestion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Questionnaire">
+        <PropertyRef Name="ListeQuestion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ElementListeQuestion">
+    <End Role="Element" Type="QCMAppBDDModel.Store.Elements" Multiplicity="*" />
+    <End Role="ListeQuestion" Type="QCMAppBDDModel.Store.ListeQuestions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ListeQuestion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Element">
+        <PropertyRef Name="ListeQuestion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ElementTypeElement">
+    <End Role="Element" Type="QCMAppBDDModel.Store.Elements" Multiplicity="*" />
+    <End Role="TypeElement" Type="QCMAppBDDModel.Store.TypeElements" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TypeElement">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Element">
+        <PropertyRef Name="TypeElement_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ChoixElement">
+    <End Role="Choix" Type="QCMAppBDDModel.Store.Choixes" Multiplicity="1" />
+    <End Role="Element" Type="QCMAppBDDModel.Store.Elements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Choix">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Element">
+        <PropertyRef Name="ChoixId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

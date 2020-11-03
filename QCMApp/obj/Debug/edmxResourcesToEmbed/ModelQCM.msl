@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QCMAppBDDModelStoreContainer" CdmEntityContainer="QCMAppBDDEntities1">
+    <EntitySetMapping Name="Choixes">
+      <EntityTypeMapping TypeName="IsTypeOf(QCMAppBDDModel.Choix)">
+        <MappingFragment StoreEntitySet="Choixes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="intitule" ColumnName="intitule" />
+          <ScalarProperty Name="statut" ColumnName="statut" />
+          <ScalarProperty Name="media" ColumnName="media" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Elements">
+      <EntityTypeMapping TypeName="IsTypeOf(QCMAppBDDModel.Element)">
+        <MappingFragment StoreEntitySet="Elements">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="intitule" ColumnName="intitule" />
+          <ScalarProperty Name="reponses" ColumnName="reponses" />
+          <ScalarProperty Name="media" ColumnName="media" />
+          <ScalarProperty Name="couleur" ColumnName="couleur" />
+          <ScalarProperty Name="doc" ColumnName="doc" />
+          <ScalarProperty Name="ChoixId" ColumnName="ChoixId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ListeQuestions">
+      <EntityTypeMapping TypeName="IsTypeOf(QCMAppBDDModel.ListeQuestion)">
+        <MappingFragment StoreEntitySet="ListeQuestions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questionnaires">
+      <EntityTypeMapping TypeName="IsTypeOf(QCMAppBDDModel.Questionnaire)">
+        <MappingFragment StoreEntitySet="Questionnaires">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="intitule" ColumnName="intitule" />
+          <ScalarProperty Name="couleur" ColumnName="couleur" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reponses">
+      <EntityTypeMapping TypeName="IsTypeOf(QCMAppBDDModel.Reponse)">
+        <MappingFragment StoreEntitySet="Reponses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="idQuestionnaire" ColumnName="idQuestionnaire" />
+          <ScalarProperty Name="intituleQuestionnaire" ColumnName="intituleQuestionnaire" />
+          <ScalarProperty Name="idElement" ColumnName="idElement" />
+          <ScalarProperty Name="intituleElement" ColumnName="intituleElement" />
+          <ScalarProperty Name="idChoix" ColumnName="idChoix" />
+          <ScalarProperty Name="intituleChoix" ColumnName="intituleChoix" />
+          <ScalarProperty Name="statut" ColumnName="statut" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="UtilisateurId" ColumnName="UtilisateurId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypeElements">
+      <EntityTypeMapping TypeName="IsTypeOf(QCMAppBDDModel.TypeElement)">
+        <MappingFragment StoreEntitySet="TypeElements">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Utilisateurs">
+      <EntityTypeMapping TypeName="IsTypeOf(QCMAppBDDModel.Utilisateur)">
+        <MappingFragment StoreEntitySet="Utilisateurs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+          <ScalarProperty Name="prenom" ColumnName="prenom" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="validation" ColumnName="validation" />
+          <ScalarProperty Name="role" ColumnName="role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="QuestionnaireListeQuestion" TypeName="QCMAppBDDModel.QuestionnaireListeQuestion" StoreEntitySet="Questionnaires">
+      <EndProperty Name="ListeQuestion">
+        <ScalarProperty Name="Id" ColumnName="ListeQuestion_Id" />
+      </EndProperty>
+      <EndProperty Name="Questionnaire">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ElementListeQuestion" TypeName="QCMAppBDDModel.ElementListeQuestion" StoreEntitySet="Elements">
+      <EndProperty Name="ListeQuestion">
+        <ScalarProperty Name="Id" ColumnName="ListeQuestion_Id" />
+      </EndProperty>
+      <EndProperty Name="Element">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ElementTypeElement" TypeName="QCMAppBDDModel.ElementTypeElement" StoreEntitySet="Elements">
+      <EndProperty Name="TypeElement">
+        <ScalarProperty Name="Id" ColumnName="TypeElement_Id" />
+      </EndProperty>
+      <EndProperty Name="Element">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
